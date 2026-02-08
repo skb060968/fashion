@@ -1,17 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
+// updated new file
 // PATCH: update order status and log the change in StatusHistory
 export async function PATCH(
   req: Request,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const { orderId } = await context.params;   // ✅ unwrap the Promise
     const { status } = await req.json();
 
     // Update the order's current status
     const order = await prisma.order.update({
-      where: { id: params.orderId },
+      where: { id: orderId },
       data: { status },
     });
 
@@ -19,17 +20,17 @@ export async function PATCH(
     await prisma.statusHistory.create({
       data: {
         status,
-        orderId: params.orderId,
+        orderId,
       },
     });
 
     // Return the updated order including history
     const updatedOrder = await prisma.order.findUnique({
-      where: { id: params.orderId },
+      where: { id: orderId },
       include: {
         items: true,
         address: true,
-        history: true, // include status history
+        history: true,
       },
     });
 
@@ -46,15 +47,17 @@ export async function PATCH(
 // GET: fetch order details including items, address, and history
 export async function GET(
   _req: Request,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const { orderId } = await context.params;   // ✅ unwrap the Promise
+
     const order = await prisma.order.findUnique({
-      where: { id: params.orderId },
+      where: { id: orderId },
       include: {
         items: true,
         address: true,
-        history: true, // include status history
+        history: true,
       },
     });
 
