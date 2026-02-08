@@ -44,6 +44,6 @@ Thumbs.db
 
 # prisma generated + local dbs
 /lib/generated/prisma
-
+*.db
 *.sqlite
 *.sqlite-journal
