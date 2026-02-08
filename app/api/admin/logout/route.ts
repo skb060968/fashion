@@ -1,11 +1,16 @@
-import { NextResponse } from "next/server"
-import { cookies } from "next/headers"
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST() {
-  cookies().delete("admin_session")
+  // ✅ Await cookies() before using .delete
+  const cookieStore = await cookies();
+  cookieStore.delete("admin_session");
 
   return NextResponse.redirect(
-    new URL("/admin/login", process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"),
+    new URL(
+      "/admin/login",
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    ),
     { status: 303 }
-  )
+  );
 }
