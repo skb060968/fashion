@@ -1,0 +1,25 @@
+# Local databases
+*.db
+*.sqlite
+*.sqlite-journal
+
+# Build artifacts
+.next/
+out/
+build/
+
+# Logs
+*.log
+
+# Coverage / test output
+coverage/
+.nyc_output/
+
+# IDE / OS clutter
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Prisma generated code (if you keep it in repo but don’t want deployed)
+lib/generated/prisma/

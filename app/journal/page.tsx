@@ -1,0 +1,76 @@
+import Link from "next/link"
+import Image from "next/image"
+import SectionHeading from "@/components/SectionHeading"
+import RevealWrapper from "@/components/RevealWrapper"
+import { content } from "@/lib/data"
+
+export const metadata = {
+  title: "Journal | Piyush Bholla",
+  description: "Design insights, creative process, and inspiration from the studio.",
+}
+
+export default function JournalPage() {
+  const { journalPosts } = content
+
+  return (
+    <main className="bg-stone-50">
+      {/* Hero */}
+      <section className="pt-32 pb-20 bg-gradient-to-b from-stone-100 to-stone-50">
+        <div className="container-max">
+          <SectionHeading
+            title="Journal"
+            subtitle="Thoughts on design, process, and the creative journey. An intimate look behind the scenes of building a fashion brand."
+          />
+        </div>
+      </section>
+
+      {/* Posts Grid */}
+      <section className="pb-24">
+        <div className="container-max">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {journalPosts.map((post, index) => (
+              <RevealWrapper key={post.slug} index={index}>
+                <article className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                  <Link href={`/journal/${post.slug}`}>
+                    <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
+                      <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-semibold text-fashion-gold uppercase tracking-wide">
+                          {post.category}
+                        </span>
+                        <span className="text-xs text-gray-500">{post.readTime}</span>
+                      </div>
+
+                      <h2 className="font-serif text-2xl font-bold text-fashion-black mb-3 group-hover:text-fashion-gold transition-colors">
+                        {post.title}
+                      </h2>
+
+                      <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500">{post.date}</span>
+                        <span className="text-sm font-medium text-fashion-black group-hover:text-fashion-gold transition-colors">
+                          Read More →
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </article>
+              </RevealWrapper>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}

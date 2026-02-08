@@ -1,0 +1,105 @@
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { requireAdmin } from "@/lib/adminAuth";
+import { prisma } from "@/lib/prisma";
+import { formatRupees } from "@/lib/money";
+
+// Badge component for coloured status labels
+function StatusBadge({ status }: { status: string }) {
+  const colors: Record<string, string> = {
+    UNDER_VERIFICATION: "bg-yellow-200 text-yellow-800",
+    VERIFIED: "bg-green-200 text-green-800",
+    REJECTED: "bg-red-200 text-red-800",
+    PROCESSING: "bg-blue-200 text-blue-800",
+    SHIPPED: "bg-purple-200 text-purple-800",
+    DELIVERED: "bg-green-300 text-green-900",
+    CANCELLED: "bg-gray-300 text-gray-800",
+    REFUNDED: "bg-pink-200 text-pink-800",
+  };
+
+  const style = colors[status] || "bg-gray-200 text-gray-800";
+  return (
+    <span className={`px-2 py-1 rounded text-xs font-semibold ${style}`}>
+      {status}
+    </span>
+  );
+}
+
+export default async function AdminPage() {
+  /* 🔒 HARD admin lock */
+  try {
+    requireAdmin();
+  } catch {
+    redirect("/admin/login");
+  }
+
+  /* Fetch orders */
+  const orders = await prisma.order.findMany({
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      amount: true,
+      status: true,
+      createdAt: true,
+    },
+  });
+
+  return (
+    <section className="pt-28 px-6 max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-serif font-bold">Admin Orders</h1>
+
+        {/* Logout */}
+        <form action="/api/admin/logout" method="POST">
+          <button
+            type="submit"
+            className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
+
+      {/* Orders table */}
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="w-full text-left">
+          <thead className="bg-stone-100 text-sm">
+            <tr>
+              <th className="p-4">Order ID</th>
+              <th className="p-4">Amount</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.id} className="border-t hover:bg-stone-50">
+                <td className="p-4">
+                  <Link
+                    href={`/admin/orders/${order.id}`}
+                    className="text-fashion-gold hover:underline"
+                  >
+                    {order.id}
+                  </Link>
+                </td>
+                <td className="p-4">{formatRupees(order.amount)}</td>
+                <td className="p-4">
+                  <StatusBadge status={order.status} />
+                </td>
+                <td className="p-4 text-sm text-gray-600">
+                  {new Date(order.createdAt).toLocaleString("en-IN")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {orders.length === 0 && (
+          <p className="p-6 text-center text-gray-500">No orders found</p>
+        )}
+      </div>
+    </section>
+  );
+}
