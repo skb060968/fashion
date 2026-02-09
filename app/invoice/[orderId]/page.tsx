@@ -72,7 +72,7 @@ export default function InvoicePage() {
               className="object-contain"
             />
             <div>
-              <h1 className="text-2xl font-bold text-fashion-black">PG Fashion</h1>
+              <h1 className="text-2xl font-bold text-fashion-black">GP Fashion</h1>
               <p className="text-sm text-gray-600">New Delhi, India</p>
             </div>
           </div>

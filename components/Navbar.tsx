@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ShoppingCart } from 'lucide-react'
+import { useCart } from '@/context/CartContext'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const { cart } = useCart()   // use 'cart' instead of 'cartItems'
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -26,7 +28,7 @@ export default function Navbar() {
             href="/"
             className="font-serif text-2xl font-bold tracking-tight text-fashion-black"
           >
-            PG Fashion
+            GP Fashion
           </Link>
 
           {/* Desktop Nav */}
@@ -40,6 +42,18 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
+
+            {/* Cart Icon */}
+            <Link href="/cart" className="relative">
+              <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-fashion-black" />
+              {cart.length > 0 && (
+                <span
+                  className="absolute -top-2 -right-2 bg-fashion-gold text-white text-xs font-semibold rounded-full px-1.5 py-0.5 animate-pulse"
+                >
+                  {cart.length}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Mobile toggle */}
@@ -66,6 +80,23 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Cart Icon in mobile menu */}
+              <Link
+                href="/cart"
+                className="flex items-center gap-2 px-2 py-2 text-sm text-gray-700 hover:text-fashion-black"
+                onClick={() => setIsOpen(false)}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                Cart
+                {cart.length > 0 && (
+                  <span
+                    className="ml-2 bg-fashion-gold text-white text-xs font-semibold rounded-full px-1.5 py-0.5 animate-pulse"
+                  >
+                    {cart.length}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
         )}
