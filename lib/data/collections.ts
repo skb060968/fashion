@@ -6,7 +6,7 @@ export const collections = [
     season: "Spring/Summer 2026",
     description: "A celebration of timeless silhouettes reimagined with contemporary sensibility. Each piece tells a story of refined craftsmanship and understated luxury.",
     coverImage: "/images/shop/items/1dress/1dress-cover.webp",
-    dresses: ["1dress", "2dress", "9dress", "19dress"],
+    dresses: ["1dress", "2dress", "9dress", "19dress", "21dress"],
     mood: "Sophisticated, Minimal, Timeless",
     inspiration: "Inspired by the intersection of traditional Indian textiles and modern architectural forms.",
   },

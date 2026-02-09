@@ -214,9 +214,11 @@ export const dresses = [
       "XL"
     ],
     "thumbnails": [
+      "/images/shop/thumbnails/19dress/19dress1.webp",
       "/images/shop/thumbnails/19dress/19dress-cover.webp"
     ],
     "images": [
+      "/images/shop/items/19dress/19dress-1.webp",
       "/images/shop/items/19dress/19dress-cover.webp"
     ],
     "coverImage": "/images/shop/items/19dress/19dress-cover.webp",
@@ -271,6 +273,30 @@ export const dresses = [
     ],
     "coverImage": "/images/shop/items/20dress/20dress-cover.webp",
     "coverThumbnail": "/images/shop/thumbnails/20dress/20dress-cover.webp"
+  },
+  {
+    "slug": "21dress",
+    "name": "Dress 21",
+    "description": "Short description of the dress.",
+    "price": 499900,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "thumbnails": [
+      "/images/shop/thumbnails/21dress/21dress-1.webp",
+      "/images/shop/thumbnails/21dress/21dress-2.webp",
+      "/images/shop/thumbnails/21dress/21dress-cover.webp"
+    ],
+    "images": [
+      "/images/shop/items/21dress/21dress-1.webp",
+      "/images/shop/items/21dress/21dress-2.webp",
+      "/images/shop/items/21dress/21dress-cover.webp"
+    ],
+    "coverImage": "/images/shop/items/21dress/21dress-cover.webp",
+    "coverThumbnail": "/images/shop/thumbnails/21dress/21dress-cover.webp"
   },
   {
     "slug": "2dress",
@@ -465,12 +491,10 @@ export const dresses = [
     ],
     "thumbnails": [
       "/images/shop/thumbnails/9dress/9dress-1.webp",
-      "/images/shop/thumbnails/9dress/9dress-2.webp",
       "/images/shop/thumbnails/9dress/9dress-cover.webp"
     ],
     "images": [
       "/images/shop/items/9dress/9dress-1.webp",
-      "/images/shop/items/9dress/9dress-2.webp",
       "/images/shop/items/9dress/9dress-cover.webp"
     ],
     "coverImage": "/images/shop/items/9dress/9dress-cover.webp",
