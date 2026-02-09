@@ -25,7 +25,7 @@ export default function AboutSection() {
 
               <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-fashion-gold rounded-full flex items-center justify-center shadow-md">
                 <span className="text-white font-serif text-lg font-bold">
-                  PG
+                  GP
                 </span>
               </div>
             </div>

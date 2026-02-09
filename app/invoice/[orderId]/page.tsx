@@ -68,7 +68,7 @@ export default function InvoicePage() {
               src="/payments/logo.png"  // replace with your actual logo path in /public
               alt="Company Logo"
               width={80}
-              height={60}
+              height={80}
               className="object-contain"
             />
             <div>

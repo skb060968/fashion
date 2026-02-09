@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, ShoppingCart } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
+import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -23,13 +24,23 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-stone-200 backdrop-blur-md border-b border-gray-100">
       <div className="container-max">
         <div className="flex h-16 items-center justify-between">
+
           {/* Logo */}
-          <Link
-            href="/"
-            className="font-serif text-2xl font-bold tracking-tight text-fashion-black"
-          >
-            GP Fashion
-          </Link>
+
+<Link href="/" className="flex items-center gap-2 group">
+  <Image
+    src="/payments/logo.png"
+    alt="GP Fashion logo"
+    width={40}
+    height={40}
+    className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+    priority
+  />
+  <span className="font-serif text-2xl font-bold tracking-tight text-fashion-black">
+    GP Fashion
+  </span>
+</Link>
+
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">

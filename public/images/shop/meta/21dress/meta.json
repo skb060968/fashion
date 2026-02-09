@@ -1,0 +1,7 @@
+{
+  "slug": "21dress",
+  "name": "Dress 21",
+  "description": "Short description of the dress.",
+  "price": 499900,
+  "sizes": ["S", "M", "L", "XL"]
+}
