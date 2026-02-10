@@ -26,7 +26,7 @@ export default function PaymentPage() {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const discountRate = 0.2
+  const discountRate = 0.1
   const discountAmount = totalAmount * discountRate
   const orderTotal = totalAmount - discountAmount
 

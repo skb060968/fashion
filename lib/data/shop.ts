@@ -4,7 +4,7 @@ export const dresses = [
     "slug": "10dress",
     "name": "Style 10",
     "description": "",
-    "price": 799900,
+    "price": 799000,
     "sizes": [
       "S",
       "M",
@@ -28,7 +28,7 @@ export const dresses = [
     "slug": "11dress",
     "name": "Style 11",
     "description": "",
-    "price": 799900,
+    "price": 799000,
     "sizes": [
       "S",
       "M",
@@ -54,7 +54,7 @@ export const dresses = [
     "slug": "12dress",
     "name": "Style 12",
     "description": "",
-    "price": 799900,
+    "price": 799000,
     "sizes": [
       "S",
       "M",
@@ -78,7 +78,7 @@ export const dresses = [
     "slug": "13dress",
     "name": "Style 13",
     "description": "",
-    "price": 699900,
+    "price": 699000,
     "sizes": [
       "S",
       "M",
@@ -100,7 +100,7 @@ export const dresses = [
     "slug": "14dress",
     "name": "Style 14",
     "description": "",
-    "price": 699900,
+    "price": 699000,
     "sizes": [
       "S",
       "M",
@@ -122,7 +122,7 @@ export const dresses = [
     "slug": "15dress",
     "name": "Style 15",
     "description": "",
-    "price": 499900,
+    "price": 499000,
     "sizes": [
       "S",
       "M",
@@ -144,7 +144,7 @@ export const dresses = [
     "slug": "16dress",
     "name": "Style 16",
     "description": "",
-    "price": 699900,
+    "price": 699000,
     "sizes": [
       "S",
       "M",
@@ -166,7 +166,7 @@ export const dresses = [
     "slug": "17dress",
     "name": "Style 17",
     "description": "",
-    "price": 499900,
+    "price": 499000,
     "sizes": [
       "S",
       "M",
@@ -186,7 +186,7 @@ export const dresses = [
     "slug": "18dress",
     "name": "Style 18",
     "description": "",
-    "price": 599900,
+    "price": 599000,
     "sizes": [
       "S",
       "M",
@@ -206,7 +206,7 @@ export const dresses = [
     "slug": "19dress",
     "name": "Style 19",
     "description": "",
-    "price": 1199900,
+    "price": 1199000,
     "sizes": [
       "S",
       "M",
@@ -228,7 +228,7 @@ export const dresses = [
     "slug": "1dress",
     "name": "Style 1",
     "description": "",
-    "price": 499900,
+    "price": 499000,
     "sizes": [
       "S",
       "M",
@@ -250,7 +250,7 @@ export const dresses = [
     "slug": "20dress",
     "name": "Style 20",
     "description": "",
-    "price": 1499900,
+    "price": 1499000,
     "sizes": [
       "S",
       "M",
@@ -278,7 +278,7 @@ export const dresses = [
     "slug": "21dress",
     "name": "Style 21",
     "description": "",
-    "price": 599900,
+    "price": 599000,
     "sizes": [
       "S",
       "M",
@@ -302,7 +302,7 @@ export const dresses = [
     "slug": "2dress",
     "name": "Style 2",
     "description": "",
-    "price": 699900,
+    "price": 699000,
     "sizes": [
       "S",
       "M",
@@ -328,7 +328,7 @@ export const dresses = [
     "slug": "3dress",
     "name": "Style 3",
     "description": "",
-    "price": 299900,
+    "price": 299000,
     "sizes": [
       "S",
       "M",
@@ -356,7 +356,7 @@ export const dresses = [
     "slug": "4dress",
     "name": "Style 4",
     "description": "",
-    "price": 199900,
+    "price": 199000,
     "sizes": [
       "S",
       "M",
@@ -382,7 +382,7 @@ export const dresses = [
     "slug": "5dress",
     "name": "Style 5",
     "description": "",
-    "price": 1499900,
+    "price": 1499000,
     "sizes": [
       "S",
       "M",
@@ -412,7 +412,7 @@ export const dresses = [
     "slug": "6dress",
     "name": "Style 6",
     "description": "",
-    "price": 599900,
+    "price": 599000,
     "sizes": [
       "S",
       "M",
@@ -434,7 +434,7 @@ export const dresses = [
     "slug": "7dress",
     "name": "Style 7",
     "description": "",
-    "price": 699900,
+    "price": 699000,
     "sizes": [
       "S",
       "M",
@@ -460,7 +460,7 @@ export const dresses = [
     "slug": "8dress",
     "name": "Style 8",
     "description": "",
-    "price": 599900,
+    "price": 599000,
     "sizes": [
       "S",
       "M",
@@ -482,7 +482,7 @@ export const dresses = [
     "slug": "9dress",
     "name": "Style 9",
     "description": "",
-    "price": 1199900,
+    "price": 1199000,
     "sizes": [
       "S",
       "M",
