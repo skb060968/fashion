@@ -1,7 +1,12 @@
 {
   "slug": "18dress",
-  "name": "Dress 18",
-  "description": "Short description of the dress.",
-  "price": 500,
-  "sizes": ["S", "M", "L", "XL"]
+  "name": "Style 18",
+  "description": "",
+  "price": 599900,
+  "sizes": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ]
 }

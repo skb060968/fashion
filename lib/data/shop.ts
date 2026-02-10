@@ -2,9 +2,9 @@
 export const dresses = [
   {
     "slug": "10dress",
-    "name": "Dress 10",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 10",
+    "description": "",
+    "price": 799900,
     "sizes": [
       "S",
       "M",
@@ -26,9 +26,9 @@ export const dresses = [
   },
   {
     "slug": "11dress",
-    "name": "Dress 11",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 11",
+    "description": "",
+    "price": 799900,
     "sizes": [
       "S",
       "M",
@@ -52,9 +52,9 @@ export const dresses = [
   },
   {
     "slug": "12dress",
-    "name": "Dress 12",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 12",
+    "description": "",
+    "price": 799900,
     "sizes": [
       "S",
       "M",
@@ -76,9 +76,9 @@ export const dresses = [
   },
   {
     "slug": "13dress",
-    "name": "Dress 13",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 13",
+    "description": "",
+    "price": 699900,
     "sizes": [
       "S",
       "M",
@@ -98,9 +98,9 @@ export const dresses = [
   },
   {
     "slug": "14dress",
-    "name": "Dress 14",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 14",
+    "description": "",
+    "price": 699900,
     "sizes": [
       "S",
       "M",
@@ -120,9 +120,9 @@ export const dresses = [
   },
   {
     "slug": "15dress",
-    "name": "Dress 15",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 15",
+    "description": "",
+    "price": 499900,
     "sizes": [
       "S",
       "M",
@@ -142,9 +142,9 @@ export const dresses = [
   },
   {
     "slug": "16dress",
-    "name": "Dress 16",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 16",
+    "description": "",
+    "price": 699900,
     "sizes": [
       "S",
       "M",
@@ -164,9 +164,9 @@ export const dresses = [
   },
   {
     "slug": "17dress",
-    "name": "Dress 17",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 17",
+    "description": "",
+    "price": 499900,
     "sizes": [
       "S",
       "M",
@@ -184,9 +184,9 @@ export const dresses = [
   },
   {
     "slug": "18dress",
-    "name": "Dress 18",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 18",
+    "description": "",
+    "price": 599900,
     "sizes": [
       "S",
       "M",
@@ -204,9 +204,9 @@ export const dresses = [
   },
   {
     "slug": "19dress",
-    "name": "Dress 19",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 19",
+    "description": "",
+    "price": 1199900,
     "sizes": [
       "S",
       "M",
@@ -214,7 +214,7 @@ export const dresses = [
       "XL"
     ],
     "thumbnails": [
-      "/images/shop/thumbnails/19dress/19dress1.webp",
+      "/images/shop/thumbnails/19dress/19dress-1.webp",
       "/images/shop/thumbnails/19dress/19dress-cover.webp"
     ],
     "images": [
@@ -226,9 +226,9 @@ export const dresses = [
   },
   {
     "slug": "1dress",
-    "name": "Dress 1",
-    "description": "Short description of the dress.",
-    "price": 100,
+    "name": "Style 1",
+    "description": "",
+    "price": 499900,
     "sizes": [
       "S",
       "M",
@@ -248,9 +248,9 @@ export const dresses = [
   },
   {
     "slug": "20dress",
-    "name": "Dress 20",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 20",
+    "description": "",
+    "price": 1499900,
     "sizes": [
       "S",
       "M",
@@ -276,9 +276,9 @@ export const dresses = [
   },
   {
     "slug": "21dress",
-    "name": "Dress 21",
-    "description": "Short description of the dress.",
-    "price": 499900,
+    "name": "Style 21",
+    "description": "",
+    "price": 599900,
     "sizes": [
       "S",
       "M",
@@ -300,9 +300,9 @@ export const dresses = [
   },
   {
     "slug": "2dress",
-    "name": "Dress 2",
-    "description": "Short description of the dress.",
-    "price": 200,
+    "name": "Style 2",
+    "description": "",
+    "price": 699900,
     "sizes": [
       "S",
       "M",
@@ -326,9 +326,9 @@ export const dresses = [
   },
   {
     "slug": "3dress",
-    "name": "Dress 3",
-    "description": "Short description of the dress.",
-    "price": 300,
+    "name": "Style 3",
+    "description": "",
+    "price": 299900,
     "sizes": [
       "S",
       "M",
@@ -354,9 +354,9 @@ export const dresses = [
   },
   {
     "slug": "4dress",
-    "name": "Dress 4",
-    "description": "Short description of the dress.",
-    "price": 400,
+    "name": "Style 4",
+    "description": "",
+    "price": 199900,
     "sizes": [
       "S",
       "M",
@@ -380,9 +380,9 @@ export const dresses = [
   },
   {
     "slug": "5dress",
-    "name": "Design 5",
-    "description": "Short description of the dress.",
-    "price": 2450000,
+    "name": "Style 5",
+    "description": "",
+    "price": 1499900,
     "sizes": [
       "S",
       "M",
@@ -410,9 +410,9 @@ export const dresses = [
   },
   {
     "slug": "6dress",
-    "name": "Dress 6",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 6",
+    "description": "",
+    "price": 599900,
     "sizes": [
       "S",
       "M",
@@ -432,9 +432,9 @@ export const dresses = [
   },
   {
     "slug": "7dress",
-    "name": "Dress 7",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 7",
+    "description": "",
+    "price": 699900,
     "sizes": [
       "S",
       "M",
@@ -458,9 +458,9 @@ export const dresses = [
   },
   {
     "slug": "8dress",
-    "name": "Dress 8",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 8",
+    "description": "",
+    "price": 599900,
     "sizes": [
       "S",
       "M",
@@ -480,9 +480,9 @@ export const dresses = [
   },
   {
     "slug": "9dress",
-    "name": "Dress 9",
-    "description": "Short description of the dress.",
-    "price": 500,
+    "name": "Style 9",
+    "description": "",
+    "price": 1199900,
     "sizes": [
       "S",
       "M",
