@@ -9,27 +9,23 @@ import { OrderStatus } from "@prisma/client";
 // PATCH: update order status, log the change in StatusHistory, and send email
 export async function PATCH(
   req: NextRequest,
-  context: { params: { orderId: string } }
-) {
+  { params }: { params: { orderId: string } }
+): Promise<Response> {
   try {
-    const { orderId } = context.params;
-    const { status } = await req.json();
+    const { orderId } = params;
+    const body = await req.json();
+    const newStatus = body.status as OrderStatus;
 
-    const newStatus = status as OrderStatus;
-
-    // Update the order's current status
     const order = await prisma.order.update({
       where: { id: orderId },
       data: { status: newStatus },
       include: { items: true, address: true },
     });
 
-    // Log the status change in history
     await prisma.statusHistory.create({
       data: { status: newStatus, orderId },
     });
 
-    // Build email data for customer (customer info lives in Address)
     const emailData: OrderEmailData = {
       id: order.id,
       amount: order.amount,
@@ -56,7 +52,6 @@ export async function PATCH(
       })),
     };
 
-    // Send status email to customer if email exists
     if (emailData.customer.email) {
       const html = orderStatusEmailCustomer(emailData);
       const subject = `Order ${order.id} status update: ${newStatus.replace(/_/g, " ")}`;
@@ -67,7 +62,6 @@ export async function PATCH(
       });
     }
 
-    // Return updated order including history
     const updatedOrder = await prisma.order.findUnique({
       where: { id: orderId },
       include: { items: true, address: true, history: true },
@@ -86,10 +80,10 @@ export async function PATCH(
 // GET: fetch order details including items, address, and history
 export async function GET(
   _req: NextRequest,
-  context: { params: { orderId: string } }
-) {
+  { params }: { params: { orderId: string } }
+): Promise<Response> {
   try {
-    const { orderId } = context.params;
+    const { orderId } = params;
 
     const order = await prisma.order.findUnique({
       where: { id: orderId },
