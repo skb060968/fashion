@@ -1,4 +1,3 @@
-// fashion/app/api/admin/orders/[orderId]/route.ts
 import { prisma } from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
 import { orderStatusEmailCustomer } from "@/lib/emails/orderStatusEmailCustomer";
@@ -6,13 +5,13 @@ import { sendMail } from "@/lib/mailer";
 import { OrderEmailData } from "@/lib/types/OrderEmailData";
 import { OrderStatus } from "@prisma/client";
 
-// PATCH: update order status, log the change in StatusHistory, and send email
+// PATCH
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ): Promise<Response> {
   try {
-    const { orderId } = params;
+    const { orderId } = await context.params;
     const body = await req.json();
     const newStatus = body.status as OrderStatus;
 
@@ -70,20 +69,17 @@ export async function PATCH(
     return NextResponse.json(updatedOrder);
   } catch (err) {
     console.error("ADMIN STATUS UPDATE ERROR", err);
-    return NextResponse.json(
-      { error: "Failed to update status" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update status" }, { status: 500 });
   }
 }
 
-// GET: fetch order details including items, address, and history
+// GET
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ): Promise<Response> {
   try {
-    const { orderId } = params;
+    const { orderId } = await context.params;
 
     const order = await prisma.order.findUnique({
       where: { id: orderId },
@@ -97,9 +93,6 @@ export async function GET(
     return NextResponse.json(order);
   } catch (error) {
     console.error("ADMIN ORDER FETCH ERROR:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch order" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch order" }, { status: 500 });
   }
 }
