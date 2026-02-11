@@ -57,7 +57,7 @@ export const collections = [
     season: "Menswear 2026",
     description: "Refined menswear that balances tradition with contemporary style. Tailored pieces designed for the modern man who values quality, fit, and timeless elegance.",
     coverImage: "/images/shop/items/5dress/5dress-cover.webp",
-    dresses: ["5dress"],
+    dresses: ["5dress","22dress"],
     mood: "Sharp, Sophisticated, Masculine",
     inspiration: "Drawing from classic menswear traditions while embracing modern cuts and sustainable fabrics.",
     category: "menswear",

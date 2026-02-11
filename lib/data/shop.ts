@@ -174,9 +174,11 @@ export const dresses = [
       "XL"
     ],
     "thumbnails": [
+      "/images/shop/thumbnails/17dress/17dress-1.webp",
       "/images/shop/thumbnails/17dress/17dress-cover.webp"
     ],
     "images": [
+      "/images/shop/items/17dress/17dress-1.webp",
       "/images/shop/items/17dress/17dress-cover.webp"
     ],
     "coverImage": "/images/shop/items/17dress/17dress-cover.webp",
@@ -194,9 +196,11 @@ export const dresses = [
       "XL"
     ],
     "thumbnails": [
+      "/images/shop/thumbnails/18dress/18dress-1.webp",
       "/images/shop/thumbnails/18dress/18dress-cover.webp"
     ],
     "images": [
+      "/images/shop/items/18dress/18dress-1.webp",
       "/images/shop/items/18dress/18dress-cover.webp"
     ],
     "coverImage": "/images/shop/items/18dress/18dress-cover.webp",
@@ -297,6 +301,28 @@ export const dresses = [
     ],
     "coverImage": "/images/shop/items/21dress/21dress-cover.webp",
     "coverThumbnail": "/images/shop/thumbnails/21dress/21dress-cover.webp"
+  },
+  {
+    "slug": "22dress",
+    "name": "Style 22",
+    "description": "",
+    "price": 1699000,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "thumbnails": [
+      "/images/shop/thumbnails/22dress/22dress-1.webp",
+      "/images/shop/thumbnails/22dress/22dress-cover.webp"
+    ],
+    "images": [
+      "/images/shop/items/22dress/22dress-1.webp",
+      "/images/shop/items/22dress/22dress-cover.webp"
+    ],
+    "coverImage": "/images/shop/items/22dress/22dress-cover.webp",
+    "coverThumbnail": "/images/shop/thumbnails/22dress/22dress-cover.webp"
   },
   {
     "slug": "2dress",
