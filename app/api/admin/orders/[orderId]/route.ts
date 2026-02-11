@@ -1,6 +1,6 @@
 // fashion/app/api/admin/orders/[orderId]/route.ts
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { orderStatusEmailCustomer } from "@/lib/emails/orderStatusEmailCustomer";
 import { sendMail } from "@/lib/mailer";
 import { OrderEmailData } from "@/lib/types/OrderEmailData";
@@ -8,21 +8,20 @@ import { OrderStatus } from "@prisma/client";
 
 // PATCH: update order status, log the change in StatusHistory, and send email
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   context: { params: { orderId: string } }
 ) {
   try {
     const { orderId } = context.params;
     const { status } = await req.json();
 
-    // Ensure status is treated as enum
     const newStatus = status as OrderStatus;
 
     // Update the order's current status
     const order = await prisma.order.update({
       where: { id: orderId },
       data: { status: newStatus },
-      include: { items: true, address: true }, // only valid relations
+      include: { items: true, address: true },
     });
 
     // Log the status change in history
@@ -86,7 +85,7 @@ export async function PATCH(
 
 // GET: fetch order details including items, address, and history
 export async function GET(
-  _req: Request,
+  _req: NextRequest,
   context: { params: { orderId: string } }
 ) {
   try {
