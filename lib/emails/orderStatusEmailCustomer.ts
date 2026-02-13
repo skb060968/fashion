@@ -3,13 +3,11 @@ import { formatRupees } from "@/lib/money";
 import { OrderEmailData } from "../types/OrderEmailData";
 
 export function orderStatusEmailCustomer(order: OrderEmailData) {
-  const total = order.amount - (order.discount ?? 0);
-
   const headerMap: Record<string, string> = {
     UNDER_VERIFICATION: "✅ Order Under Verification",
     VERIFIED: "✅ Payment Verified",
     REJECTED: "❌ Payment Rejected",
-    PROCESSING: "🛠️ Order Processing",
+    PROCESSING: "🧵 Order Processing",
     SHIPPED: "📦 Order Shipped",
     DELIVERED: "🎉 Order Delivered",
     CANCELLED: "⚠️ Order Cancelled",
@@ -17,18 +15,21 @@ export function orderStatusEmailCustomer(order: OrderEmailData) {
   };
 
   const messageMap: Record<string, string> = {
-    UNDER_VERIFICATION: `We’ve received your order #${order.id}. Payment is under verification.`,
-    VERIFIED: `Your payment for order #${order.id} has been verified. We’re preparing your order.`,
-    REJECTED: `Unfortunately, your payment for order #${order.id} could not be verified.`,
-    PROCESSING: `Your order #${order.id} is being prepared.`,
-    SHIPPED: `Order #${order.id} has been shipped. Track your package soon.`,
-    DELIVERED: `Order #${order.id} has been delivered successfully.`,
-    CANCELLED: `Order #${order.id} has been cancelled.`,
-    REFUNDED: `Your refund for order #${order.id} has been processed.`,
+    UNDER_VERIFICATION: `We’ve received your order. Payment is under verification.`,
+    VERIFIED: `Your payment for order has been verified.`,
+    REJECTED: `Unfortunately, your payment for order could not be verified.`,
+    PROCESSING: `Your order is being prepared.`,
+    SHIPPED: `Your order has been shipped.`,
+    DELIVERED: `Your order has been delivered successfully.`,
+    CANCELLED: `Your order has been cancelled.`,
+    REFUNDED: `Your refund for order has been processed.`,
   };
 
   const header = headerMap[order.status] || "ℹ️ Order Update";
-  const message = messageMap[order.status] || `Order #${order.id} status changed to ${order.status}.`;
+  const message = messageMap[order.status] || `Order status changed to ${order.status}.`;
+
+  // Subtotal = amount + discount
+  const subtotal = order.amount + (order.discount ?? 0);
 
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -37,9 +38,9 @@ export function orderStatusEmailCustomer(order: OrderEmailData) {
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
       <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
-      <p><strong>Amount:</strong><br />${formatRupees(order.amount)}</p>
+      <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
-      <p><strong>Total:</strong><br />${formatRupees(total)}</p>
+      <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>
       <p><strong>Status:</strong><br />${order.status.replace(/_/g, " ")}</p>
       <p><strong>Payment Method:</strong><br />${order.paymentMethod}</p>
 

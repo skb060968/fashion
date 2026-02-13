@@ -18,6 +18,7 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
   const [activeImage, setActiveImage] = useState(dress.coverImage)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
+  const [error, setError] = useState<string>("")
   const [showModal, setShowModal] = useState(false)
 
   const handleBackToPortfolio = () => router.push("/shop")
@@ -173,76 +174,86 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
       </div>     {/* end container-max */}
 
       {/* Modal overlay */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-            <h3 className="font-serif text-lg font-bold mb-4">Select Options</h3>
+ {showModal && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+      <h3 className="font-serif text-lg font-bold mb-4">Select Options</h3>
 
-            <div className="mb-4">
-              <p className="text-sm font-medium mb-2">Size</p>
-              <div className="flex gap-3">
-                {["S","M","L","XL"].map(size => (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => setSelectedSize(size)}
-                    aria-pressed={selectedSize === size}
-                    className={`px-5 py-2.5 rounded-full text-sm transition
-                      ${selectedSize === size
-                        ? "border border-fashion-gold bg-fashion-gold/50 text-fashion-black"
-                        : "bg-white border border-gray-300 text-gray-700 hover:border-gray-500"}
-                    `}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <p className="text-sm font-medium mb-2">Quantity</p>
-              <select
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
-                className="border rounded px-4 py-2 w-full"
-                aria-label="Quantity"
-              >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i+1} value={i+1}>{i+1}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex gap-4">
-              <button
-                onClick={() => {
-                  if (!selectedSize) return
-                  addToCart({
-                    slug: dress.slug,
-                    name: dress.name,
-                    price: dress.price,
-                    coverThumbnail: dress.coverThumbnail,
-                    size: selectedSize,
-                    quantity,
-                  })
-                  setShowModal(false)
-                  router.push("/cart")
-                }}
-                disabled={!selectedSize}
-                className="flex-1 px-6 py-3 rounded-full text-sm font-semibold border-2 border-fashion-gold bg-fashion-gold text-white hover:bg-transparent hover:text-fashion-gold transition-all duration-300"
-              >
-                Confirm
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 px-6 py-3 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:border-fashion-gold hover:text-fashion-black transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+      <div className="mb-4">
+        <p className="text-sm font-medium mb-2">Size</p>
+        <div className="flex gap-3">
+          {["S","M","L","XL"].map(size => (
+            <button
+              key={size}
+              type="button"
+              onClick={() => {
+                setSelectedSize(size)
+                setError("") // clear error once a size is chosen
+              }}
+              aria-pressed={selectedSize === size}
+              className={`px-5 py-2.5 rounded-full text-sm transition
+                ${selectedSize === size
+                  ? "border border-fashion-gold bg-fashion-gold/50 text-fashion-black"
+                  : "bg-white border border-gray-300 text-gray-700 hover:border-gray-500"}
+              `}
+            >
+              {size}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      <div className="mb-6">
+        <p className="text-sm font-medium mb-2">Quantity</p>
+        <select
+          value={quantity}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+          className="border rounded px-4 py-2 w-full"
+          aria-label="Quantity"
+        >
+          {[...Array(10)].map((_, i) => (
+            <option key={i+1} value={i+1}>{i+1}</option>
+          ))}
+        </select>
+      </div>
+
+      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+      <div className="flex gap-4">
+        <button
+          onClick={() => {
+            if (!selectedSize) {
+              setError("Please select a size first.")
+              return
+            }
+            addToCart({
+              slug: dress.slug,
+              name: dress.name,
+              price: dress.price,
+              coverThumbnail: dress.coverThumbnail,
+              size: selectedSize,
+              quantity,
+            })
+            setShowModal(false)
+            router.push("/cart")
+          }}
+          className="flex-1 px-6 py-3 rounded-full text-sm font-semibold border-2 border-fashion-gold bg-fashion-gold text-white hover:bg-transparent hover:text-fashion-gold transition-all duration-300"
+        >
+          Confirm
+        </button>
+        <button
+          onClick={() => setShowModal(false)}
+          className="flex-1 px-6 py-3 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:border-fashion-gold hover:text-fashion-black transition"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
     </section>
   )
 }

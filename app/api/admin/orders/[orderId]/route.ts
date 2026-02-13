@@ -1,9 +1,7 @@
-import { prisma } from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
-import { orderStatusEmailCustomer } from "@/lib/emails/orderStatusEmailCustomer";
-import { sendMail } from "@/lib/mailer";
-import { OrderEmailData } from "@/lib/types/OrderEmailData";
 import { OrderStatus } from "@prisma/client";
+import { updateOrderStatus } from "@/lib/services/orderStatusService"; // central service
+import { prisma } from "@/lib/prisma";
 
 // PATCH
 export async function PATCH(
@@ -15,56 +13,8 @@ export async function PATCH(
     const body = await req.json();
     const newStatus = body.status as OrderStatus;
 
-    const order = await prisma.order.update({
-      where: { id: orderId },
-      data: { status: newStatus },
-      include: { items: true, address: true },
-    });
-
-    await prisma.statusHistory.create({
-      data: { status: newStatus, orderId },
-    });
-
-    const emailData: OrderEmailData = {
-      id: order.id,
-      amount: order.amount,
-      discount: order.discount ?? undefined,
-      status: newStatus,
-      createdAt: order.createdAt,
-      paymentMethod: order.paymentMethod,
-      customer: {
-        fullName: order.address?.fullName ?? "",
-        phone: order.address?.phone ?? "",
-        email: order.address?.email ?? undefined,
-        addressLine1: order.address?.addressLine1 ?? "",
-        addressLine2: order.address?.addressLine2 ?? undefined,
-        city: order.address?.city ?? "",
-        state: order.address?.state ?? "",
-        pincode: order.address?.pincode ?? "",
-      },
-      items: order.items.map(i => ({
-        name: i.name,
-        size: i.size,
-        price: i.price,
-        quantity: i.quantity,
-        coverThumbnail: i.coverThumbnail,
-      })),
-    };
-
-    if (emailData.customer.email) {
-      const html = orderStatusEmailCustomer(emailData);
-      const subject = `Order ${order.id} status update: ${newStatus.replace(/_/g, " ")}`;
-      await sendMail({
-        to: emailData.customer.email,
-        subject,
-        html,
-      });
-    }
-
-    const updatedOrder = await prisma.order.findUnique({
-      where: { id: orderId },
-      include: { items: true, address: true, history: true },
-    });
+    // Delegate to the service (handles DB update, history, email, subject line)
+    const updatedOrder = await updateOrderStatus(orderId, newStatus);
 
     return NextResponse.json(updatedOrder);
   } catch (err) {
@@ -81,6 +31,7 @@ export async function GET(
   try {
     const { orderId } = await context.params;
 
+    // GET should just fetch the order, no email sending
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: { items: true, address: true, history: true },

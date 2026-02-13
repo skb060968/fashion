@@ -1,19 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { formatRupees } from "@/lib/money"
 
 interface OrderItem {
   id: string
   name: string
   size: string
-  price: number
+  quantity: number
 }
 
 interface OrderData {
   id: string
   status: string
-  amount: number
   createdAt: string
   items: OrderItem[]
 }
@@ -32,16 +30,12 @@ export default function TrackOrderPage() {
     setLoading(true)
 
     const res = await fetch("/api/orders/track", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    orderId,
-    phone,
-  }),
-})
-
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ orderId, phone }),
+    })
 
     if (!res.ok) {
       setLoading(false)
@@ -107,21 +101,32 @@ export default function TrackOrderPage() {
           </div>
 
           <div>
+            <p className="text-sm text-gray-500">Order Date</p>
+            <p className="font-medium">
+              {new Date(order.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+
+          <div>
             <p className="text-sm text-gray-500 mb-1">Items</p>
             <ul className="space-y-2">
-              {order.items.map((item) => (
-                <li key={item.id} className="flex justify-between text-sm">
-                  <span>{item.name} Size: {item.size}</span>
-                  <span>{formatRupees(item.price)}</span>
-
+              {order.items.map((item, idx) => (
+                <li
+                  key={`${item.id}-${idx}`}
+                  className="grid grid-cols-3 gap-4 border rounded px-3 py-2 text-sm"
+                >
+                  <div>
+                    <span className="font-medium">Item:</span> {item.name}
+                  </div>
+                  <div>
+                    <span className="font-medium">Size:</span> {item.size}
+                  </div>
+                  <div>
+                    <span className="font-medium">Quantity:</span> {item.quantity}
+                  </div>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="flex justify-between border-t pt-3 font-medium">
-            <span>Total</span>
-            <span>{formatRupees(order.amount)}</span>
           </div>
         </div>
       )}

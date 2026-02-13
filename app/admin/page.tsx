@@ -39,6 +39,7 @@ export default async function AdminPage() {
     select: {
       id: true,
       amount: true,
+      discount: true,   // ✅ include discount
       status: true,
       createdAt: true,
     },
@@ -67,32 +68,45 @@ export default async function AdminPage() {
           <thead className="bg-stone-100 text-sm">
             <tr>
               <th className="p-4">Order ID</th>
-              <th className="p-4">Amount</th>
+              <th className="p-4">Subtotal</th>
+              <th className="p-4">Discount</th>
+              <th className="p-4">Amount Paid</th>
               <th className="p-4">Status</th>
               <th className="p-4">Date</th>
             </tr>
           </thead>
 
           <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="border-t hover:bg-stone-50">
-                <td className="p-4">
-                  <Link
-                    href={`/admin/orders/${order.id}`}
-                    className="text-fashion-gold hover:underline"
-                  >
-                    {order.id}
-                  </Link>
-                </td>
-                <td className="p-4">{formatRupees(order.amount)}</td>
-                <td className="p-4">
-                  <StatusBadge status={order.status} />
-                </td>
-                <td className="p-4 text-sm text-gray-600">
-                  {new Date(order.createdAt).toLocaleString("en-IN")}
-                </td>
-              </tr>
-            ))}
+            {orders.map((order) => {
+              const subtotal = order.amount + (order.discount ?? 0);
+              return (
+                <tr key={order.id} className="border-t hover:bg-stone-50">
+                  <td className="p-4">
+                    <Link
+                      href={`/admin/orders/${order.id}`}
+                      className="text-fashion-gold hover:underline"
+                    >
+                      {order.id}
+                    </Link>
+                  </td>
+                  <td className="p-4">{formatRupees(subtotal)}</td>
+                  <td className="p-4">
+                    {order.discount && order.discount > 0
+                      ? `-${formatRupees(order.discount)}`
+                      : "—"}
+                  </td>
+                  <td className="p-4 font-semibold">
+                    {formatRupees(order.amount)}
+                  </td>
+                  <td className="p-4">
+                    <StatusBadge status={order.status} />
+                  </td>
+                  <td className="p-4 text-sm text-gray-600">
+                    {new Date(order.createdAt).toLocaleString("en-IN")}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 

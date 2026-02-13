@@ -47,6 +47,7 @@ export default function PaymentPage() {
           items: cart,
           address,
           amount: orderTotal,
+          discount: discountAmount,
           paymentMethod: "UPI_MANUAL",
         }),
       })
@@ -55,10 +56,10 @@ export default function PaymentPage() {
       clearCart()
       localStorage.removeItem("checkout_address")
       router.push(`/checkout/success?orderId=${data.orderId}`)
+      // ✅ keep isPlacingOrder true until navigation
     } catch (err) {
       alert("Something went wrong while placing your order.")
-    } finally {
-      setIsPlacingOrder(false)
+      setIsPlacingOrder(false) // only reset on error
     }
   }
 
@@ -98,9 +99,7 @@ export default function PaymentPage() {
                 </div>
               </div>
 
-              {/* ✅ Line total shifts below in portrait, right edge in landscape */}
-              <div className="mt-2 sm:mt-0 sm:text-right font-medium text-fashion-black self-end"
->
+              <div className="mt-2 sm:mt-0 sm:text-right font-medium text-fashion-black self-end">
                 Line Total: {formatRupees(item.price * item.quantity)}
               </div>
             </div>
@@ -137,7 +136,7 @@ export default function PaymentPage() {
             <span className="font-semibold">{formatRupees(totalAmount)}</span>
           </div>
           <div className="flex justify-between text-gray-700">
-            <span>Discount  ({discountRate * 100}%)</span>
+            <span>Discount ({discountRate * 100}%)</span>
             <span>-{formatRupees(discountAmount)}</span>
           </div>
           <div className="flex justify-between text-lg font-bold text-fashion-black">

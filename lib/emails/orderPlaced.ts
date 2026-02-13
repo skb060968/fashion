@@ -2,8 +2,8 @@ import { formatRupees } from "@/lib/money";
 
 type OrderEmailData = {
   id: string;
-  amount: number;
-  discount?: number;
+  amount: number;        // final total after discount
+  discount?: number;     // discount applied
   status: string;
   createdAt: Date;
   paymentMethod: string;
@@ -28,7 +28,7 @@ type OrderEmailData = {
 
 // ✅ Admin email version
 export function orderPlacedEmailAdmin(order: OrderEmailData) {
-  const total = order.amount - (order.discount ?? 0);
+  const subtotal = order.amount + (order.discount ?? 0);
 
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -37,9 +37,9 @@ export function orderPlacedEmailAdmin(order: OrderEmailData) {
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
       <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
-      <p><strong>Amount:</strong><br />${formatRupees(order.amount)}</p>
+      <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
-      <p><strong>Total:</strong><br />${formatRupees(total)}</p>
+      <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>
       <p><strong>Status:</strong><br />${order.status.replace(/_/g, " ")}</p>
       <p><strong>Payment Method:</strong><br />${order.paymentMethod}</p>
 
@@ -74,7 +74,7 @@ export function orderPlacedEmailAdmin(order: OrderEmailData) {
       </table>
 
       <br />
-       <a
+      <a
         href="${process.env.SITE_URL}"
         style="
           display: inline-block;
@@ -96,7 +96,7 @@ export function orderPlacedEmailAdmin(order: OrderEmailData) {
 
 // ✅ Customer email version
 export function orderPlacedEmailCustomer(order: OrderEmailData) {
-  const total = order.amount - (order.discount ?? 0);
+  const subtotal = order.amount + (order.discount ?? 0);
 
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -105,9 +105,9 @@ export function orderPlacedEmailCustomer(order: OrderEmailData) {
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
       <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
-      <p><strong>Amount:</strong><br />${formatRupees(order.amount)}</p>
+      <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
-      <p><strong>Total:</strong><br />${formatRupees(total)}</p>
+      <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>
       <p><strong>Status:</strong><br />${order.status.replace(/_/g, " ")}</p>
       <p><strong>Payment Method:</strong><br />${order.paymentMethod}</p>
 

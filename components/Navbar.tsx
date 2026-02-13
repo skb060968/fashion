@@ -8,7 +8,7 @@ import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const { cart } = useCart()   // use 'cart' instead of 'cartItems'
+  const { cart } = useCart()
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -18,6 +18,7 @@ export default function Navbar() {
     { name: 'Services', href: '/services' },
     { name: 'Journal', href: '/journal' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Track Order', href: '/track-order' }, // ✅ Added back
   ]
 
   return (
@@ -26,21 +27,19 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
 
           {/* Logo */}
-
-<Link href="/" className="flex items-center gap-2 group">
-  <Image
-    src="/payments/logo.png"
-    alt="GP Fashion logo"
-    width={40}
-    height={40}
-    className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-    priority
-  />
-  <span className="font-serif text-2xl font-bold tracking-tight text-fashion-black">
-    GP Fashion
-  </span>
-</Link>
-
+          <Link href="/" className="flex items-center gap-2 group">
+            <Image
+              src="/payments/logo.png"
+              alt="GP Fashion logo"
+              width={40}
+              height={40}
+              className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+              priority
+            />
+            <span className="font-serif text-2xl font-bold tracking-tight text-fashion-black">
+              GP Fashion
+            </span>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">

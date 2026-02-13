@@ -48,7 +48,7 @@ export async function updateOrderStatus(orderId: string, newStatus: OrderStatus)
   // Send status email to customer if email exists
   if (emailData.customer.email) {
     const html = orderStatusEmailCustomer(emailData);
-    const subject = `Order ${order.id} status update: ${newStatus.replace(/_/g, " ")}`;
+    const subject = `Order Status: ${newStatus.replace(/_/g, " ")}`;
     await sendMail({
       to: emailData.customer.email,
       subject,

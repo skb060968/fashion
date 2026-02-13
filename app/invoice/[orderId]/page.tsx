@@ -7,7 +7,8 @@ import { formatRupees } from "@/lib/money"
 
 type Order = {
   id: string
-  amount: number
+  amount: number        // final paid amount
+  discount?: number     // discount applied
   paymentMethod: string
   status: string
   createdAt: string
@@ -26,8 +27,6 @@ type Order = {
     quantity: number
   }[]
 }
-
-const DISCOUNT_RATE = 0.2 // dynamic constant (20%)
 
 export default function InvoicePage() {
   const { orderId } = useParams<{ orderId: string }>()
@@ -48,12 +47,10 @@ export default function InvoicePage() {
     )
   }
 
-  const totalAmount = order.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  )
-  const discountAmount = totalAmount * DISCOUNT_RATE
-  const orderTotal = totalAmount - discountAmount
+  // Use DB values directly
+  const subtotal = order.amount + (order.discount ?? 0)
+  const discountAmount = order.discount ?? 0
+  const orderTotal = order.amount
 
   return (
     <div className="bg-gray-100 px-4 pt-32 pb-10 print:pb-0">
@@ -65,7 +62,7 @@ export default function InvoicePage() {
         <div className="flex justify-between items-center border-b pb-4 mb-8">
           <div className="flex items-center gap-4">
             <Image
-              src="/payments/logo.png"  // replace with your actual logo path in /public
+              src="/payments/logo.png"
               alt="Company Logo"
               width={80}
               height={80}
@@ -141,12 +138,14 @@ export default function InvoicePage() {
 
         {/* TOTALS */}
         <div className="text-right text-lg font-semibold mb-10 space-y-1">
-          <p>Total Amount : {formatRupees(totalAmount)}</p>
-          <p className="text-gray-700">
-            Discount ({DISCOUNT_RATE * 100}%) : -{formatRupees(discountAmount)}
-          </p>
+          <p>Subtotal : {formatRupees(subtotal)}</p>
+          {discountAmount > 0 && (
+            <p className="text-gray-700">
+              Discount : -{formatRupees(discountAmount)}
+            </p>
+          )}
           <p className="text-fashion-black font-bold">
-            Order Total : {formatRupees(orderTotal)}
+            Amount Paid : {formatRupees(orderTotal)}
           </p>
         </div>
 

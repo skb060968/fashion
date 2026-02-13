@@ -41,9 +41,11 @@ export async function POST(req: Request) {
       amount: order.amount,
       createdAt: order.createdAt,
       items: order.items.map((item) => ({
+        id: item.id,
         name: item.name,
-        price: item.price,
         size: item.size,
+        price: item.price,
+        quantity: item.quantity, // ✅ now included
       })),
     })
   } catch (error) {

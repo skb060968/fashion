@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { formatRupees } from "@/lib/money";
 
 interface OrderItem {
@@ -11,6 +12,7 @@ interface OrderItem {
   size: string;
   price: number;
   thumbnail: string;
+  quantity: number;
 }
 
 interface Address {
@@ -33,6 +35,7 @@ interface StatusHistory {
 interface Order {
   id: string;
   amount: number;
+  discount?: number;
   paymentMethod: string;
   status: string;
   createdAt: string;
@@ -41,7 +44,6 @@ interface Order {
   history?: StatusHistory[];
 }
 
-// Badge component for coloured status labels
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     UNDER_VERIFICATION: "bg-yellow-200 text-yellow-800",
@@ -53,7 +55,6 @@ function StatusBadge({ status }: { status: string }) {
     CANCELLED: "bg-gray-300 text-gray-800",
     REFUNDED: "bg-pink-200 text-pink-800",
   };
-
   const style = colors[status] || "bg-gray-200 text-gray-800";
   return (
     <span className={`px-2 py-1 rounded text-xs font-semibold ${style}`}>
@@ -65,7 +66,6 @@ function StatusBadge({ status }: { status: string }) {
 export default function AdminOrderDetailPage() {
   const params = useParams();
   const orderId = params?.orderId as string;
-
   const [order, setOrder] = useState<Order | null>(null);
 
   useEffect(() => {
@@ -97,6 +97,9 @@ export default function AdminOrderDetailPage() {
 
   if (!order) return <div>Loading...</div>;
 
+  const subtotal = order.amount + (order.discount ?? 0);
+  const discountAmount = order.discount ?? 0;
+
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-bold">Order Detail</h1>
@@ -125,7 +128,11 @@ export default function AdminOrderDetailPage() {
       <div className="border rounded-lg p-4">
         <h2 className="font-semibold mb-2">Payment</h2>
         <p>Method: {order.paymentMethod}</p>
-        <p>Amount: {formatRupees(order.amount)}</p>
+        <p>Subtotal: {formatRupees(subtotal)}</p>
+        {discountAmount > 0 && (
+          <p>Discount: -{formatRupees(discountAmount)}</p>
+        )}
+        <p className="font-bold">Amount Paid: {formatRupees(order.amount)}</p>
       </div>
 
       {/* Address */}
@@ -147,11 +154,23 @@ export default function AdminOrderDetailPage() {
         <h2 className="font-semibold mb-2">Items</h2>
         <ul className="space-y-2">
           {order.items.map((item) => (
-            <li key={item.id} className="flex justify-between">
-              <span>
-                {item.name} ({item.size})
-              </span>
-              <span>{formatRupees(item.price)}</span>
+            <li
+              key={item.id}
+              className="grid grid-cols-4 gap-4 border rounded px-3 py-2 text-sm"
+            >
+              <div>
+                <span className="font-medium">Item:</span> {item.name}
+              </div>
+              <div>
+                <span className="font-medium">Size:</span> {item.size}
+              </div>
+              <div>
+                <span className="font-medium">Quantity:</span> {item.quantity}
+              </div>
+              <div className="text-right">
+                <span className="font-medium">Price:</span>{" "}
+                {formatRupees(item.price)}
+              </div>
             </li>
           ))}
         </ul>
@@ -179,6 +198,16 @@ export default function AdminOrderDetailPage() {
           </ul>
         </div>
       )}
+
+      {/* Back button at bottom */}
+      <div className="pt-6">
+        <Link
+          href="/admin"
+          className="inline-block px-6 py-3 rounded-md border border-stone-300 bg-white hover:bg-stone-100 text-sm font-medium text-fashion-gold transition"
+        >
+          ← Back to Admin Dashboard
+        </Link>
+      </div>
     </div>
   );
 }
