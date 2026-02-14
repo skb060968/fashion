@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/adminAuth";
 import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
+import { formatDateDDMMYYYY } from "@/lib/date";
 
 // Badge component for coloured status labels
 function StatusBadge({ status }: { status: string }) {
@@ -26,20 +27,20 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminPage() {
-  /* 🔒 HARD admin lock */
+  // 🔒 Hard admin lock: redirect to login if not authenticated
   try {
-    requireAdmin();
+    requireAdmin(); // throws if not logged in
   } catch {
     redirect("/admin/login");
   }
 
-  /* Fetch orders */
+  // Fetch orders
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
       amount: true,
-      discount: true,   // ✅ include discount
+      discount: true,
       status: true,
       createdAt: true,
     },
@@ -102,7 +103,7 @@ export default async function AdminPage() {
                     <StatusBadge status={order.status} />
                   </td>
                   <td className="p-4 text-sm text-gray-600">
-                    {new Date(order.createdAt).toLocaleString("en-IN")}
+                    {formatDateDDMMYYYY(order.createdAt)}
                   </td>
                 </tr>
               );

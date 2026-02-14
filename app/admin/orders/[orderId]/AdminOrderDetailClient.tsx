@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { formatRupees } from "@/lib/money";
+import { formatDateDDMMYYYY } from "@/lib/date";
 
 interface OrderItem {
   id: string;
@@ -191,7 +192,7 @@ export default function AdminOrderDetailPage() {
                 <li key={event.id} className="flex justify-between text-sm">
                   <StatusBadge status={event.status} />
                   <span className="text-gray-600">
-                    {new Date(event.changedAt).toLocaleString("en-IN")}
+                    {formatDateDDMMYYYY(event.changedAt)}
                   </span>
                 </li>
               ))}

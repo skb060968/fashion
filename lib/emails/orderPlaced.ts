@@ -33,12 +33,11 @@ export function orderPlacedEmailAdmin(order: OrderEmailData) {
 
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <h2 style="margin-bottom: 12px; font-size:18px;">🛒 NEW ORDER RECEIVED</h2>
-      <p>A new order has been placed successfully. Please verify payment status.</p>
+      <h2 style="margin-bottom: 12px; font-size:18px;">🛒 A new order has been placed successfully.</h2>
+      <p>Please verify payment status.</p>
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
-     <p><strong>Date:</strong><br />{formatDateDDMMYYYY(order.createdAt)}</p>
-
+     <p><strong>Date:</strong><br />${formatDateDDMMYYYY(order.createdAt)}</p>
       <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
       <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>
@@ -102,8 +101,8 @@ export function orderPlacedEmailCustomer(order: OrderEmailData) {
 
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <h2 style="margin-bottom: 12px; font-size:18px;">✅ Your Order Has Been Placed</h2>
-      <p>Thank you for shopping with GP Fashion! We’ve received your order and will keep you updated on its status.</p>
+      <h2 style="margin-bottom: 12px; font-size:18px;">Thank you for shopping with GP Fashion!</h2>
+      <p> We’ve received your order and will keep you updated on its status.</p>
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
       <p><strong>Date:</strong><br />${formatDateDDMMYYYY(order.createdAt)}</p>
