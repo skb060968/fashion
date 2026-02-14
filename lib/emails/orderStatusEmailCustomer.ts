@@ -1,6 +1,7 @@
 // /src/emails/orderStatusEmailCustomer.ts
 import { formatRupees } from "@/lib/money";
 import { OrderEmailData } from "../types/OrderEmailData";
+import { formatDateDDMMYYYY } from "@/lib/date";
 
 export function orderStatusEmailCustomer(order: OrderEmailData) {
   const headerMap: Record<string, string> = {
@@ -37,7 +38,7 @@ export function orderStatusEmailCustomer(order: OrderEmailData) {
       <p>${message}</p>
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
-      <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
+      <p><strong>Date:</strong><br />${formatDateDDMMYYYY(order.createdAt)}</p>
       <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
       <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>

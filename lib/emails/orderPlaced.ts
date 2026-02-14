@@ -1,4 +1,5 @@
 import { formatRupees } from "@/lib/money";
+import { formatDateDDMMYYYY } from "@/lib/date";
 
 type OrderEmailData = {
   id: string;
@@ -36,7 +37,8 @@ export function orderPlacedEmailAdmin(order: OrderEmailData) {
       <p>A new order has been placed successfully. Please verify payment status.</p>
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
-      <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
+     <p><strong>Date:</strong><br />{formatDateDDMMYYYY(order.createdAt)}</p>
+
       <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
       <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>
@@ -104,7 +106,7 @@ export function orderPlacedEmailCustomer(order: OrderEmailData) {
       <p>Thank you for shopping with GP Fashion! We’ve received your order and will keep you updated on its status.</p>
 
       <p><strong>Order ID:</strong><br />${order.id}</p>
-      <p><strong>Date:</strong><br />${new Date(order.createdAt).toLocaleString()}</p>
+      <p><strong>Date:</strong><br />${formatDateDDMMYYYY(order.createdAt)}</p>
       <p><strong>Subtotal:</strong><br />${formatRupees(subtotal)}</p>
       ${order.discount ? `<p><strong>Discount:</strong><br />-${formatRupees(order.discount)}</p>` : ""}
       <p><strong>Amount Paid:</strong><br />${formatRupees(order.amount)}</p>

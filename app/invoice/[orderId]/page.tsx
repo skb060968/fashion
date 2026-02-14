@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import { formatRupees } from "@/lib/money"
+import { formatDateDDMMYYYY } from "@/lib/date";
+
 
 type Order = {
   id: string
@@ -75,9 +77,11 @@ export default function InvoicePage() {
           </div>
           <div className="text-right">
             <h2 className="text-2xl font-bold text-fashion-gold">INVOICE</h2>
-            <p className="text-sm text-gray-600">
-              Date: {new Date(order.createdAt).toLocaleDateString()}
-            </p>
+            
+              <p className="text-sm text-gray-600">
+                 Date: {formatDateDDMMYYYY(order.createdAt)}
+              </p>
+
           </div>
         </div>
 
