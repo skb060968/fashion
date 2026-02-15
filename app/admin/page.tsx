@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/adminAuth";
 import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
@@ -25,8 +27,14 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminPage() {
-  // ✅ Middleware already enforces login, so no need to redirect here
+  // 🔒 Hard admin lock: redirect to login if not authenticated
+  try {
+    requireAdmin(); // throws if not logged in
+  } catch {
+    redirect("/admin/login");
+  }
 
+  // Fetch orders
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     select: {
