@@ -1,3 +1,5 @@
+// app/admin/page.tsx
+
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/adminAuth";
@@ -5,7 +7,9 @@ import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
 
-// Badge component for coloured status labels
+// ✅ Prevent caching of this page
+export const revalidate = 0;
+
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     UNDER_VERIFICATION: "bg-yellow-200 text-yellow-800",
@@ -29,12 +33,11 @@ function StatusBadge({ status }: { status: string }) {
 export default async function AdminPage() {
   // 🔒 Hard admin lock: redirect to login if not authenticated
   try {
-    await requireAdmin(); // ✅ must await since requireAdmin is async
+    await requireAdmin();
   } catch {
     redirect("/admin/login");
   }
 
-  // Fetch orders
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     select: {
@@ -48,11 +51,9 @@ export default async function AdminPage() {
 
   return (
     <section className="pt-28 px-6 max-w-6xl mx-auto">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-serif font-bold">Admin Orders</h1>
 
-        {/* Logout */}
         <form action="/api/admin/logout" method="POST">
           <button
             type="submit"
@@ -63,7 +64,6 @@ export default async function AdminPage() {
         </form>
       </div>
 
-      {/* Orders table */}
       <div className="bg-white rounded-xl shadow overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-stone-100 text-sm">
@@ -76,7 +76,6 @@ export default async function AdminPage() {
               <th className="p-4">Date</th>
             </tr>
           </thead>
-
           <tbody>
             {orders.map((order) => {
               const subtotal = order.amount + (order.discount ?? 0);
