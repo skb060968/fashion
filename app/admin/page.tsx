@@ -1,13 +1,12 @@
-// app/admin/page.tsx
-
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/adminAuth";
 import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
+import { unstable_noStore as noStore } from "next/cache";
 
-// ✅ Prevent caching of this page
+// ✅ Prevent caching at the browser and Next.js level
 export const revalidate = 0;
 
 function StatusBadge({ status }: { status: string }) {
@@ -31,6 +30,9 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminPage() {
+  // 🚫 Prevent caching so Back button can't reopen dashboard
+  noStore();
+
   // 🔒 Hard admin lock: redirect to login if not authenticated
   try {
     await requireAdmin();
