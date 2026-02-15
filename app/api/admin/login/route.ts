@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import crypto from "crypto";
 import type { NextRequest } from "next/server";
 
@@ -18,9 +17,9 @@ export async function POST(req: NextRequest) {
     .update("admin-session")
     .digest("hex");
 
-  // ✅ Await cookies() before using .set   UPDATED FILE
-  const cookieStore = await cookies();
-  cookieStore.set("admin_session", token, {
+  // ✅ Set cookie on the response, not via cookies()
+  const res = NextResponse.json({ success: true });
+  res.cookies.set("admin_session", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
@@ -28,5 +27,5 @@ export async function POST(req: NextRequest) {
     maxAge: 60 * 60 * 1, // ⏰ 1 hour
   });
 
-  return NextResponse.json({ success: true });
+  return res;
 }

@@ -27,10 +27,9 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminPage() {
-  // 🔒 Hard admin lock: redirect to login if not authenticated
-  try {
-    requireAdmin(); // throws if not logged in
-  } catch {
+  // 🔒 Admin lock: redirect to login if not authenticated
+  const isAdmin = requireAdmin(); // updated to return boolean instead of throwing
+  if (!isAdmin) {
     redirect("/admin/login");
   }
 

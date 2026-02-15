@@ -1,30 +1,41 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!res.ok) {
-      setError("Invalid credentials")
-      return
+      setLoading(false);
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Invalid credentials");
+        return;
+      }
+
+      // ✅ Cookie is set by the API route, just redirect
+      router.push("/admin");
+    } catch (err) {
+      setLoading(false);
+      setError("Something went wrong. Please try again.");
     }
-
-    router.push("/admin")
   }
 
   return (
@@ -55,19 +66,19 @@ export default function AdminLoginPage() {
 
         {error && <p className="text-red-600 text-sm">{error}</p>}
 
-       <button
-  type="submit"
-  className="w-full rounded-lg py-3 font-semibold text-white
-                  bg-gradient-to-r from-fashion-gold to-amber-500
-                  hover:from-amber-500 hover:to-fashion-gold
-                  shadow-md hover:shadow-xl
-                  transform hover:-translate-y-0.5 active:translate-y-0
-                  transition-all duration-300"
->
-  Login
-</button>
-
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-lg py-3 font-semibold text-white
+                     bg-gradient-to-r from-fashion-gold to-amber-500
+                     hover:from-amber-500 hover:to-fashion-gold
+                     shadow-md hover:shadow-xl
+                     transform hover:-translate-y-0.5 active:translate-y-0
+                     transition-all duration-300"
+        >
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </div>
-  )
+  );
 }
