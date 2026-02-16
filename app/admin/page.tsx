@@ -50,14 +50,16 @@ export default async function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-serif font-bold">Admin Orders</h1>
 
-        <form action="/api/admin/logout" method="POST">
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
-          >
-            Logout
-          </button>
-        </form>
+        <button
+  onClick={async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin-login";
+  }}
+  className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
+>
+  Logout
+</button>
+
       </div>
 
       <div className="bg-white rounded-xl shadow overflow-x-auto">
