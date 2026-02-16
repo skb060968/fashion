@@ -4,13 +4,12 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import { formatRupees } from "@/lib/money"
-import { formatDateDDMMYYYY } from "@/lib/date";
-
+import { formatDateDDMMYYYY } from "@/lib/date"
 
 type Order = {
-  id: string
-  amount: number        // final paid amount
-  discount?: number     // discount applied
+  orderCode: string        // 👈 use orderCode instead of id
+  amount: number           // final paid amount
+  discount?: number        // discount applied
   paymentMethod: string
   status: string
   createdAt: string
@@ -31,7 +30,7 @@ type Order = {
 }
 
 export default function InvoicePage() {
-  const { orderId } = useParams<{ orderId: string }>()
+  const { orderId } = useParams<{ orderId: string }>() // this is actually orderCode now
   const router = useRouter()
   const [order, setOrder] = useState<Order | null>(null)
 
@@ -77,19 +76,17 @@ export default function InvoicePage() {
           </div>
           <div className="text-right">
             <h2 className="text-2xl font-bold text-fashion-gold">INVOICE</h2>
-            
-              <p className="text-sm text-gray-600">
-                 Date: {formatDateDDMMYYYY(order.createdAt)}
-              </p>
-
+            <p className="text-sm text-gray-600">
+              Date: {formatDateDDMMYYYY(order.createdAt)}
+            </p>
           </div>
         </div>
 
         {/* META */}
         <div className="text-lg text-gray-800 space-y-2 mb-8">
           <p>
-            <span className="font-medium">Order ID :</span>{" "}
-            <span className="font-mono">{order.id}</span>
+            <span className="font-medium">Order Code :</span>{" "}
+            <span className="font-mono">{order.orderCode}</span>
           </p>
           <p>
             <span className="font-medium">Status :</span> {order.status}

@@ -9,6 +9,7 @@ datasource db {
 
 model Order {
   id            String          @id @default(cuid())
+  orderCode     String   @unique    
   amount        Int
   discount      Int             @default(0)        // ✅ new field for order-level discount
   paymentMethod PaymentMethod

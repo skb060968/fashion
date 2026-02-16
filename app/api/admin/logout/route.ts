@@ -1,11 +1,22 @@
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 
-export async function POST(req: Request) {
-  // Build a redirect back to the login page
-  const res = NextResponse.redirect(new URL("/admin/login", req.url), { status: 303 });
+export async function POST() {
+  const headerList = await headers();
+  const host = headerList.get("host");
 
-  // Clear the cookie on the response
-  res.cookies.delete("admin_session");
+  const protocol = host?.includes("localhost") ? "http" : "https";
 
-  return res;
+  const url = `${protocol}://${host}/admin-login`;
+
+  const response = NextResponse.redirect(url);
+
+  response.cookies.set({
+    name: "admin_session",
+    value: "",
+    path: "/",
+    expires: new Date(0),
+  });
+
+  return response;
 }

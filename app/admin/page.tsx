@@ -1,6 +1,4 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
-import { requireAdmin } from "@/lib/adminAuth";
 import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
@@ -22,6 +20,7 @@ function StatusBadge({ status }: { status: string }) {
   };
 
   const style = colors[status] || "bg-gray-200 text-gray-800";
+
   return (
     <span className={`px-2 py-1 rounded text-xs font-semibold ${style}`}>
       {status}
@@ -33,17 +32,12 @@ export default async function AdminPage() {
   // 🚫 Prevent caching so Back button can't reopen dashboard
   noStore();
 
-  // 🔒 Hard admin lock: redirect to login if not authenticated
-  try {
-    await requireAdmin();
-  } catch {
-    redirect("/admin/login");
-  }
+  // ✅ Authentication is handled globally in app/admin/layout.tsx
 
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     select: {
-      id: true,
+      orderCode: true,   // 👈 use orderCode instead of id
       amount: true,
       discount: true,
       status: true,
@@ -70,7 +64,7 @@ export default async function AdminPage() {
         <table className="w-full text-left">
           <thead className="bg-stone-100 text-sm">
             <tr>
-              <th className="p-4">Order ID</th>
+              <th className="p-4">Order Code</th>
               <th className="p-4">Subtotal</th>
               <th className="p-4">Discount</th>
               <th className="p-4">Amount Paid</th>
@@ -81,14 +75,15 @@ export default async function AdminPage() {
           <tbody>
             {orders.map((order) => {
               const subtotal = order.amount + (order.discount ?? 0);
+
               return (
-                <tr key={order.id} className="border-t hover:bg-stone-50">
+                <tr key={order.orderCode} className="border-t hover:bg-stone-50">
                   <td className="p-4">
                     <Link
-                      href={`/admin/orders/${order.id}`}
+                      href={`/admin/orders/${order.orderCode}`} // 👈 link by orderCode
                       className="text-fashion-gold hover:underline"
                     >
-                      {order.id}
+                      {order.orderCode}
                     </Link>
                   </td>
                   <td className="p-4">{formatRupees(subtotal)}</td>

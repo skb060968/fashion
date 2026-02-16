@@ -1,26 +1,25 @@
-// fashion/lib/services/orderStatusService.ts
 import { prisma } from "../prisma";
 import { sendMail } from "../mailer";
 import { orderStatusEmailCustomer } from "../emails/orderStatusEmailCustomer";
 import { OrderEmailData } from "../types/OrderEmailData";
 import { OrderStatus } from "@prisma/client";
 
-export async function updateOrderStatus(orderId: string, newStatus: OrderStatus) {
-  // Update order and include relations defined in schema
+export async function updateOrderStatus(orderCode: string, newStatus: OrderStatus) {
+  // ✅ Update order by orderCode
   const order = await prisma.order.update({
-    where: { id: orderId },
+    where: { orderCode },   // 👈 use boutique code
     data: { status: newStatus },
     include: { items: true, address: true },
   });
 
-  // Log the status change in history
+  // ✅ Log the status change in history (FK still uses internal id)
   await prisma.statusHistory.create({
-    data: { status: newStatus, orderId },
+    data: { status: newStatus, orderId: order.id },
   });
 
   // Adapt Prisma result into OrderEmailData
   const emailData: OrderEmailData = {
-    id: order.id,
+    orderCode: order.orderCode,   // 👈 expose boutique code
     amount: order.amount,
     discount: order.discount ?? undefined,
     status: newStatus,
@@ -45,7 +44,7 @@ export async function updateOrderStatus(orderId: string, newStatus: OrderStatus)
     })),
   };
 
-  // Send status email to customer if email exists
+  // ✅ Send status email to customer if email exists
   if (emailData.customer.email) {
     const html = orderStatusEmailCustomer(emailData);
     const subject = `Order Status: ${newStatus.replace(/_/g, " ")}`;
@@ -56,9 +55,9 @@ export async function updateOrderStatus(orderId: string, newStatus: OrderStatus)
     });
   }
 
-  // Return updated order including history for API response
+  // ✅ Return updated order including history for API response
   const updatedOrder = await prisma.order.findUnique({
-    where: { id: orderId },
+    where: { orderCode },   // 👈 fetch by boutique code
     include: { items: true, address: true, history: true },
   });
 

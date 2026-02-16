@@ -13,7 +13,7 @@ export async function PATCH(
     const body = await req.json();
     const newStatus = body.status as OrderStatus;
 
-    // Delegate to the service (handles DB update, history, email, subject line)
+    // ✅ Delegate to service with orderCode instead of cuid
     const updatedOrder = await updateOrderStatus(orderId, newStatus);
 
     return NextResponse.json(updatedOrder);
@@ -31,9 +31,9 @@ export async function GET(
   try {
     const { orderId } = await context.params;
 
-    // GET should just fetch the order, no email sending
+    // ✅ Fetch by orderCode instead of id
     const order = await prisma.order.findUnique({
-      where: { id: orderId },
+      where: { orderCode: orderId },
       include: { items: true, address: true, history: true },
     });
 

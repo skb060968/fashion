@@ -3,17 +3,18 @@ import { prisma } from "@/lib/prisma"
 
 export async function POST(req: Request) {
   try {
-    const { orderId, phone } = await req.json()
+    const { orderCode, phone } = await req.json()
 
-    if (!orderId || !phone) {
+    if (!orderCode || !phone) {
       return NextResponse.json(
-        { error: "Missing order ID or phone number" },
+        { error: "Missing order code or phone number" },
         { status: 400 }
       )
     }
 
+    // ✅ Look up by orderCode instead of id
     const order = await prisma.order.findUnique({
-      where: { id: orderId },
+      where: { orderCode },
       include: {
         address: true,
         items: true,
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      id: order.id,
+      orderCode: order.orderCode, // 👈 return boutique code
       status: order.status,
       amount: order.amount,
       createdAt: order.createdAt,
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
         name: item.name,
         size: item.size,
         price: item.price,
-        quantity: item.quantity, // ✅ now included
+        quantity: item.quantity,
       })),
     })
   } catch (error) {

@@ -1,9 +1,29 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { OrderStatus, PaymentMethod } from "@prisma/client";
-
 import { sendMail } from "@/lib/mailer";
-import { orderPlacedEmailAdmin, orderPlacedEmailCustomer } from "@/lib/emails/orderPlaced";
+import {
+  orderPlacedEmailAdmin,
+  orderPlacedEmailCustomer,
+} from "@/lib/emails/orderPlaced";
+
+// Helper: generate short order codes like 26001, 26002, etc.
+async function generateOrderCode(year: number) {
+  const yearSuffix = year.toString().slice(-2);
+
+  const lastOrder = await prisma.order.findFirst({
+    where: { orderCode: { startsWith: yearSuffix } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const lastSeq = lastOrder
+    ? parseInt(lastOrder.orderCode.slice(2)) // after YY
+    : 0;
+
+  const nextSeq = (lastSeq + 1).toString().padStart(3, "0");
+
+  return `${yearSuffix}${nextSeq}`;
+}
 
 export async function POST(req: Request) {
   try {
@@ -17,9 +37,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // 🔑 Generate orderCode
+    const year = new Date().getFullYear();
+    const orderCode = await generateOrderCode(year);
+
     // 1️⃣ Create order with relations + initial history
     const createdOrder = await prisma.order.create({
       data: {
+        orderCode, // 👈 new short code
         amount,
         discount: discount ?? 0,
         paymentMethod: paymentMethod as PaymentMethod,
@@ -83,7 +108,7 @@ export async function POST(req: Request) {
           to: process.env.ADMIN_EMAIL,
           subject: "🛒 New order placed",
           html: orderPlacedEmailAdmin({
-            id: order.id,
+            orderCode: order.orderCode, // 👈 correct key
             amount: order.amount,
             discount: order.discount,
             status: order.status,
@@ -105,7 +130,6 @@ export async function POST(req: Request) {
               price: item.price,
               quantity: item.quantity,
               coverThumbnail: item.coverThumbnail ?? "",
-              slug: item.slug,
             })),
           }),
         });
@@ -117,7 +141,7 @@ export async function POST(req: Request) {
           to: order.address.email,
           subject: "✅ Your order has been placed",
           html: orderPlacedEmailCustomer({
-            id: order.id,
+            orderCode: order.orderCode, // 👈 correct key
             amount: order.amount,
             discount: order.discount,
             status: order.status,
@@ -139,7 +163,6 @@ export async function POST(req: Request) {
               price: item.price,
               quantity: item.quantity,
               coverThumbnail: item.coverThumbnail ?? "",
-              slug: item.slug,
             })),
           }),
         });
@@ -149,7 +172,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { success: true, orderId: order.id },
+      { success: true, orderId: order.orderCode }, // 👈 return short code
       { status: 201 }
     );
   } catch (error) {

@@ -6,11 +6,12 @@ export async function GET(
   context: { params: Promise<{ orderId: string }> }
 ) {
   try {
-    // ✅ unwrap the Promise   UPDATED FILE
+    // ✅ unwrap the Promise
     const { orderId } = await context.params;
 
+    // 🔑 lookup by orderCode instead of cuid id
     const order = await prisma.order.findUnique({
-      where: { id: orderId },
+      where: { orderCode: orderId },
       include: {
         address: true,
         items: true,

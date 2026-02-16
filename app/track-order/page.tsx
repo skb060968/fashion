@@ -10,14 +10,14 @@ interface OrderItem {
 }
 
 interface OrderData {
-  id: string
+  orderCode: string   // 👈 use orderCode instead of id
   status: string
   createdAt: string
   items: OrderItem[]
 }
 
 export default function TrackOrderPage() {
-  const [orderId, setOrderId] = useState("")
+  const [orderCode, setOrderCode] = useState("") // 👈 renamed for clarity
   const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -34,7 +34,7 @@ export default function TrackOrderPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ orderId, phone }),
+      body: JSON.stringify({ orderCode, phone }), // 👈 send orderCode
     })
 
     if (!res.ok) {
@@ -55,10 +55,10 @@ export default function TrackOrderPage() {
       <form onSubmit={handleTrack} className="space-y-4 mb-8">
         <input
           type="text"
-          placeholder="Order ID"
+          placeholder="Order Code"
           className="w-full border rounded px-3 py-2"
-          value={orderId}
-          onChange={(e) => setOrderId(e.target.value)}
+          value={orderCode}
+          onChange={(e) => setOrderCode(e.target.value)}
           required
         />
 
@@ -91,8 +91,8 @@ export default function TrackOrderPage() {
         <div className="border rounded-lg p-6 space-y-4">
           <div className="flex justify-between">
             <div>
-              <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-medium">{order.id}</p>
+              <p className="text-sm text-gray-500">Order Code</p>
+              <p className="font-medium">{order.orderCode}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Status</p>

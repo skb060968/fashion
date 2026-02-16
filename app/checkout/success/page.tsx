@@ -6,7 +6,7 @@ import Link from "next/link"
 import { formatRupees } from "@/lib/money"
 
 type Order = {
-  id: string
+  orderCode: string   // 👈 use orderCode instead of id
   amount: number
   paymentMethod: string
   status: string
@@ -14,7 +14,7 @@ type Order = {
 
 function SuccessContent() {
   const searchParams = useSearchParams()
-  const orderId = searchParams.get("orderId")
+  const orderId = searchParams.get("orderId") // this is actually orderCode now
 
   const [order, setOrder] = useState<Order | null>(null)
   const [loading, setLoading] = useState(true)
@@ -65,8 +65,8 @@ function SuccessContent() {
 
         <div className="text-lg text-gray-800 space-y-3 text-left">
           <p>
-            <span className="font-medium">Order ID :</span>{" "}
-            <span className="font-mono">{order.id}</span>
+            <span className="font-medium">Order Code :</span>{" "}
+            <span className="font-mono">{order.orderCode}</span>
           </p>
           <p>
             <span className="font-medium">Status :</span> {order.status}
@@ -83,7 +83,7 @@ function SuccessContent() {
 
         <div className="pt-4 flex flex-col gap-3">
           <Link
-            href={`/invoice/${order.id}`}
+            href={`/invoice/${order.orderCode}`} // 👈 use orderCode for invoice link
             className="w-full border border-gray-300 rounded-lg py-3 text-base text-gray-800 hover:bg-gray-100 transition"
           >
             Download Invoice

@@ -34,7 +34,7 @@ interface StatusHistory {
 }
 
 interface Order {
-  id: string;
+  orderCode: string;      // 👈 use orderCode instead of id
   amount: number;
   discount?: number;
   paymentMethod: string;
@@ -66,24 +66,24 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function AdminOrderDetailPage() {
   const params = useParams();
-  const orderId = params?.orderId as string;
+  const orderCode = params?.orderId as string; // 👈 param is actually orderCode
   const [order, setOrder] = useState<Order | null>(null);
 
   useEffect(() => {
-    if (!orderId) return;
+    if (!orderCode) return;
     async function fetchOrder() {
-      const res = await fetch(`/api/admin/orders/${orderId}`);
+      const res = await fetch(`/api/admin/orders/${orderCode}`); // 👈 fetch by orderCode
       if (res.ok) {
         const data = await res.json();
         setOrder(data);
       }
     }
     fetchOrder();
-  }, [orderId]);
+  }, [orderCode]);
 
   async function updateStatus(newStatus: string) {
-    if (!orderId) return;
-    const res = await fetch(`/api/admin/orders/${orderId}`, {
+    if (!orderCode) return;
+    const res = await fetch(`/api/admin/orders/${orderCode}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),
@@ -103,7 +103,9 @@ export default function AdminOrderDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Order Detail</h1>
+      <h1 className="text-2xl font-bold">
+        Order Detail – Code {order.orderCode} {/* 👈 show boutique code */}
+      </h1>
 
       {/* Status dropdown */}
       <div className="flex items-center space-x-4">
