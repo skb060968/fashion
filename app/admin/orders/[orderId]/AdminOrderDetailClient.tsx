@@ -109,8 +109,7 @@ export default function AdminOrderDetailPage() {
   const discountAmount = order?.discount ?? 0;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-
+    <div className="pt-28 max-w-3xl mx-auto px-6 pb-6 space-y-6">
       {/* ✅ Professional Header with Logout */}
       <div className="flex items-center justify-between mb-6">
         <div>
