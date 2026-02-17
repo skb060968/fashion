@@ -4,7 +4,7 @@ import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
 import { unstable_noStore as noStore } from "next/cache";
 
-// ✅ Prevent caching at the browser and Next.js level
+// Prevent caching
 export const revalidate = 0;
 
 function StatusBadge({ status }: { status: string }) {
@@ -29,15 +29,15 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function AdminPage() {
-  // 🚫 Prevent caching so Back button can't reopen dashboard
+  // Prevent caching (important for admin security)
   noStore();
 
-  // ✅ Authentication is handled globally in app/admin/layout.tsx
+  // Auth handled globally in app/admin/layout.tsx
 
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     select: {
-      orderCode: true,   // 👈 use orderCode instead of id
+      orderCode: true,
       amount: true,
       discount: true,
       status: true,
@@ -50,16 +50,15 @@ export default async function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-serif font-bold">Admin Orders</h1>
 
-        <button
-  onClick={async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    window.location.href = "/admin-login";
-  }}
-  className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
->
-  Logout
-</button>
-
+        {/* ✅ Server-safe logout */}
+        <form action="/api/admin/logout" method="POST">
+          <button
+            type="submit"
+            className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
+          >
+            Logout
+          </button>
+        </form>
       </div>
 
       <div className="bg-white rounded-xl shadow overflow-x-auto">
@@ -79,10 +78,13 @@ export default async function AdminPage() {
               const subtotal = order.amount + (order.discount ?? 0);
 
               return (
-                <tr key={order.orderCode} className="border-t hover:bg-stone-50">
+                <tr
+                  key={order.orderCode}
+                  className="border-t hover:bg-stone-50"
+                >
                   <td className="p-4">
                     <Link
-                      href={`/admin/orders/${order.orderCode}`} // 👈 link by orderCode
+                      href={`/admin/orders/${order.orderCode}`}
                       className="text-fashion-gold hover:underline"
                     >
                       {order.orderCode}
@@ -110,7 +112,9 @@ export default async function AdminPage() {
         </table>
 
         {orders.length === 0 && (
-          <p className="p-6 text-center text-gray-500">No orders found</p>
+          <p className="p-6 text-center text-gray-500">
+            No orders found
+          </p>
         )}
       </div>
     </section>
