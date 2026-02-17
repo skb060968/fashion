@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
 import { unstable_noStore as noStore } from "next/cache";
+import LogoutButton from "./LogoutButton";
 
 // Prevent caching
 export const revalidate = 0;
@@ -49,16 +50,7 @@ export default async function AdminPage() {
     <section className="pt-28 px-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-serif font-bold">Admin Orders</h1>
-
-        {/* ✅ Server-safe logout */}
-        <form action="/api/admin/logout" method="POST">
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm rounded-md border border-stone-300 hover:bg-stone-100 transition"
-          >
-            Logout
-          </button>
-        </form>
+            <LogoutButton />
       </div>
 
       <div className="bg-white rounded-xl shadow overflow-x-auto">

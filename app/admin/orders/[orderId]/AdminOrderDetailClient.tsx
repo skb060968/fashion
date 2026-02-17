@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { formatRupees } from "@/lib/money";
 import { formatDateDDMMYYYY } from "@/lib/date";
+import LogoutButton from "@/app/admin/LogoutButton";
 
 interface OrderItem {
   id: string;
@@ -110,10 +111,20 @@ export default function AdminOrderDetailPage() {
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
 
-      {/* ✅ Always show order code from URL immediately */}
-      <h1 className="text-2xl font-bold">
-        Order Detail – Code {order?.orderCode ?? orderCode}
-      </h1>
+      {/* ✅ Professional Header with Logout */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">Order Details</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Order Code:{" "}
+            <span className="font-semibold text-black">
+              {order?.orderCode ?? orderCode}
+            </span>
+          </p>
+        </div>
+
+        <LogoutButton />
+      </div>
 
       {!order && <div>Loading order details...</div>}
 
