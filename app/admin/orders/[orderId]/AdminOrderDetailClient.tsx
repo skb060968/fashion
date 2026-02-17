@@ -34,7 +34,7 @@ interface StatusHistory {
 }
 
 interface Order {
-  orderCode: string;      // 👈 use orderCode instead of id
+  orderCode: string;
   amount: number;
   discount?: number;
   paymentMethod: string;
@@ -56,7 +56,9 @@ function StatusBadge({ status }: { status: string }) {
     CANCELLED: "bg-gray-300 text-gray-800",
     REFUNDED: "bg-pink-200 text-pink-800",
   };
+
   const style = colors[status] || "bg-gray-200 text-gray-800";
+
   return (
     <span className={`px-2 py-1 rounded text-xs font-semibold ${style}`}>
       {status}
@@ -66,28 +68,34 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function AdminOrderDetailPage() {
   const params = useParams();
-  const orderCode = params?.orderId as string; // 👈 param is actually orderCode
+  const orderCode =
+    typeof params?.orderId === "string" ? params.orderId : "";
+
   const [order, setOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     if (!orderCode) return;
+
     async function fetchOrder() {
-      const res = await fetch(`/api/admin/orders/${orderCode}`); // 👈 fetch by orderCode
+      const res = await fetch(`/api/admin/orders/${orderCode}`);
       if (res.ok) {
         const data = await res.json();
         setOrder(data);
       }
     }
+
     fetchOrder();
   }, [orderCode]);
 
   async function updateStatus(newStatus: string) {
     if (!orderCode) return;
+
     const res = await fetch(`/api/admin/orders/${orderCode}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),
     });
+
     if (res.ok) {
       const updated = await res.json();
       setOrder(updated);
@@ -96,121 +104,125 @@ export default function AdminOrderDetailPage() {
     }
   }
 
-  if (!order) return <div>Loading...</div>;
-
-  const subtotal = order.amount + (order.discount ?? 0);
-  const discountAmount = order.discount ?? 0;
+  const subtotal = order ? order.amount + (order.discount ?? 0) : 0;
+  const discountAmount = order?.discount ?? 0;
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
+
+      {/* ✅ Always show order code from URL immediately */}
       <h1 className="text-2xl font-bold">
-        Order Detail – Code {order.orderCode} {/* 👈 show boutique code */}
+        Order Detail – Code {order?.orderCode ?? orderCode}
       </h1>
 
-      {/* Status dropdown */}
-      <div className="flex items-center space-x-4">
-        <span className="font-medium">Current Status:</span>
-        <StatusBadge status={order.status} />
-        <select
-          value={order.status}
-          onChange={(e) => updateStatus(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="UNDER_VERIFICATION">Under Verification</option>
-          <option value="VERIFIED">Verified</option>
-          <option value="REJECTED">Rejected</option>
-          <option value="PROCESSING">Processing</option>
-          <option value="SHIPPED">Shipped</option>
-          <option value="DELIVERED">Delivered</option>
-          <option value="CANCELLED">Cancelled</option>
-          <option value="REFUNDED">Refunded</option>
-        </select>
-      </div>
+      {!order && <div>Loading order details...</div>}
 
-      {/* Payment */}
-      <div className="border rounded-lg p-4">
-        <h2 className="font-semibold mb-2">Payment</h2>
-        <p>Method: {order.paymentMethod}</p>
-        <p>Subtotal: {formatRupees(subtotal)}</p>
-        {discountAmount > 0 && (
-          <p>Discount: -{formatRupees(discountAmount)}</p>
-        )}
-        <p className="font-bold">Amount Paid: {formatRupees(order.amount)}</p>
-      </div>
-
-      {/* Address */}
-      {order.address && (
-        <div className="border rounded-lg p-4">
-          <h2 className="font-semibold mb-2">Shipping Address</h2>
-          <p>{order.address.fullName}</p>
-          <p>{order.address.phone}</p>
-          <p>{order.address.addressLine1}</p>
-          {order.address.addressLine2 && <p>{order.address.addressLine2}</p>}
-          <p>
-            {order.address.city}, {order.address.state} - {order.address.pincode}
-          </p>
-        </div>
-      )}
-
-      {/* Items */}
-      <div className="border rounded-lg p-4">
-        <h2 className="font-semibold mb-2">Items</h2>
-        <ul className="space-y-2">
-          {order.items.map((item) => (
-            <li
-              key={item.id}
-              className="grid grid-cols-4 gap-4 border rounded px-3 py-2 text-sm"
+      {order && (
+        <>
+          {/* Status */}
+          <div className="flex items-center space-x-4">
+            <span className="font-medium">Current Status:</span>
+            <StatusBadge status={order.status} />
+            <select
+              value={order.status}
+              onChange={(e) => updateStatus(e.target.value)}
+              className="border rounded px-2 py-1"
             >
-              <div>
-                <span className="font-medium">Item:</span> {item.name}
-              </div>
-              <div>
-                <span className="font-medium">Size:</span> {item.size}
-              </div>
-              <div>
-                <span className="font-medium">Quantity:</span> {item.quantity}
-              </div>
-              <div className="text-right">
-                <span className="font-medium">Price:</span>{" "}
-                {formatRupees(item.price)}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <option value="UNDER_VERIFICATION">Under Verification</option>
+              <option value="VERIFIED">Verified</option>
+              <option value="REJECTED">Rejected</option>
+              <option value="PROCESSING">Processing</option>
+              <option value="SHIPPED">Shipped</option>
+              <option value="DELIVERED">Delivered</option>
+              <option value="CANCELLED">Cancelled</option>
+              <option value="REFUNDED">Refunded</option>
+            </select>
+          </div>
 
-      {/* Status History */}
-      {order.history && order.history.length > 0 && (
-        <div className="border rounded-lg p-4">
-          <h2 className="font-semibold mb-2">Status History</h2>
-          <ul className="space-y-2">
-            {[...order.history]
-              .sort(
-                (a, b) =>
-                  new Date(b.changedAt).getTime() -
-                  new Date(a.changedAt).getTime()
-              )
-              .map((event) => (
-                <li key={event.id} className="flex justify-between text-sm">
-                  <StatusBadge status={event.status} />
-                  <span className="text-gray-600">
-                    {formatDateDDMMYYYY(event.changedAt)}
-                  </span>
+          {/* Payment */}
+          <div className="border rounded-lg p-4">
+            <h2 className="font-semibold mb-2">Payment</h2>
+            <p>Method: {order.paymentMethod}</p>
+            <p>Subtotal: {formatRupees(subtotal)}</p>
+            {discountAmount > 0 && (
+              <p>Discount: -{formatRupees(discountAmount)}</p>
+            )}
+            <p className="font-bold">
+              Amount Paid: {formatRupees(order.amount)}
+            </p>
+          </div>
+
+          {/* Address */}
+          {order.address && (
+            <div className="border rounded-lg p-4">
+              <h2 className="font-semibold mb-2">Shipping Address</h2>
+              <p>{order.address.fullName}</p>
+              <p>{order.address.phone}</p>
+              <p>{order.address.addressLine1}</p>
+              {order.address.addressLine2 && (
+                <p>{order.address.addressLine2}</p>
+              )}
+              <p>
+                {order.address.city}, {order.address.state} -{" "}
+                {order.address.pincode}
+              </p>
+            </div>
+          )}
+
+          {/* Items */}
+          <div className="border rounded-lg p-4">
+            <h2 className="font-semibold mb-2">Items</h2>
+            <ul className="space-y-2">
+              {order.items.map((item) => (
+                <li
+                  key={item.id}
+                  className="grid grid-cols-4 gap-4 border rounded px-3 py-2 text-sm"
+                >
+                  <div>{item.name}</div>
+                  <div>Size: {item.size}</div>
+                  <div>Qty: {item.quantity}</div>
+                  <div className="text-right">
+                    {formatRupees(item.price)}
+                  </div>
                 </li>
               ))}
-          </ul>
-        </div>
-      )}
+            </ul>
+          </div>
 
-      {/* Back button at bottom */}
-      <div className="pt-6">
-        <Link
-          href="/admin"
-          className="inline-block px-6 py-3 rounded-md border border-stone-300 bg-white hover:bg-stone-100 text-sm font-medium text-fashion-gold transition"
-        >
-          ← Back to Admin Dashboard
-        </Link>
-      </div>
+          {/* History */}
+          {order.history && order.history.length > 0 && (
+            <div className="border rounded-lg p-4">
+              <h2 className="font-semibold mb-2">Status History</h2>
+              <ul className="space-y-2">
+                {[...order.history]
+                  .sort(
+                    (a, b) =>
+                      new Date(b.changedAt).getTime() -
+                      new Date(a.changedAt).getTime()
+                  )
+                  .map((event) => (
+                    <li key={event.id} className="flex justify-between text-sm">
+                      <StatusBadge status={event.status} />
+                      <span className="text-gray-600">
+                        {formatDateDDMMYYYY(event.changedAt)}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Back */}
+          <div className="pt-6">
+            <Link
+              href="/admin"
+              className="inline-block px-6 py-3 rounded-md border border-stone-300 bg-white hover:bg-stone-100 text-sm font-medium text-fashion-gold transition"
+            >
+              ← Back to Admin Dashboard
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }

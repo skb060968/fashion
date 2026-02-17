@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import crypto from "crypto";
 
 export default async function AdminLayout({
   children,
@@ -7,10 +8,18 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session");
+  const session = cookieStore.get("admin_session")?.value;
 
-  // If no session, redirect to login
   if (!session) {
+    redirect("/admin-login");
+  }
+
+  const expected = crypto
+    .createHmac("sha256", process.env.ADMIN_SECRET!)
+    .update("admin-session")
+    .digest("hex");
+
+  if (session !== expected) {
     redirect("/admin-login");
   }
 
