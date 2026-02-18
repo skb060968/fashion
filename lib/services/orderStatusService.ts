@@ -45,15 +45,21 @@ export async function updateOrderStatus(orderCode: string, newStatus: OrderStatu
   };
 
   // ✅ Send status email to customer if email exists
-  if (emailData.customer.email) {
-    const html = orderStatusEmailCustomer(emailData);
-    const subject = `Order Status: ${newStatus.replace(/_/g, " ")}`;
-    await sendMail({
-      to: emailData.customer.email,
-      subject,
-      html,
-    });
-  }
+if (emailData.customer.email) {
+  (async () => {
+    try {
+      const html = orderStatusEmailCustomer(emailData);
+      const subject = `Order Status: ${newStatus.replace(/_/g, " ")}`;
+      await sendMail({
+        to: emailData.customer.email!, // 👈 non‑null assertion
+        subject,
+        html,
+      });
+    } catch (err) {
+      console.error("STATUS_EMAIL_FAILED:", err);
+    }
+  })();
+}
 
   // ✅ Return updated order including history for API response
   const updatedOrder = await prisma.order.findUnique({

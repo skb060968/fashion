@@ -100,81 +100,86 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3️⃣ Send Emails
-    try {
-      // Admin notification
-      if (process.env.ADMIN_EMAIL) {
-        await sendMail({
-          to: process.env.ADMIN_EMAIL,
-          subject: "🛒 New order placed",
-          html: orderPlacedEmailAdmin({
-            orderCode: order.orderCode, // 👈 correct key
-            amount: order.amount,
-            discount: order.discount,
-            status: order.status,
-            createdAt: order.createdAt,
-            paymentMethod: order.paymentMethod,
-            customer: {
-              fullName: order.address!.fullName,
-              phone: order.address!.phone,
-              email: order.address!.email ?? "",
-              addressLine1: order.address!.addressLine1,
-              addressLine2: order.address!.addressLine2 ?? "",
-              city: order.address!.city,
-              state: order.address!.state,
-              pincode: order.address!.pincode,
-            },
-            items: order.items.map((item) => ({
-              name: item.name,
-              size: item.size,
-              price: item.price,
-              quantity: item.quantity,
-              coverThumbnail: item.coverThumbnail ?? "",
-            })),
-          }),
-        });
-      }
-
-      // Customer notification
-      if (order.address?.email) {
-        await sendMail({
-          to: order.address.email,
-          subject: "✅ Your order has been placed",
-          html: orderPlacedEmailCustomer({
-            orderCode: order.orderCode, // 👈 correct key
-            amount: order.amount,
-            discount: order.discount,
-            status: order.status,
-            createdAt: order.createdAt,
-            paymentMethod: order.paymentMethod,
-            customer: {
-              fullName: order.address.fullName,
-              phone: order.address.phone,
-              email: order.address.email,
-              addressLine1: order.address.addressLine1,
-              addressLine2: order.address.addressLine2 ?? "",
-              city: order.address.city,
-              state: order.address.state,
-              pincode: order.address.pincode,
-            },
-            items: order.items.map((item) => ({
-              name: item.name,
-              size: item.size,
-              price: item.price,
-              quantity: item.quantity,
-              coverThumbnail: item.coverThumbnail ?? "",
-            })),
-          }),
-        });
-      }
-    } catch (error) {
-      console.error("ORDER_EMAIL_FAILED:", error);
-    }
-
-    return NextResponse.json(
+    // ✅ Return immediately to frontend
+    const response = NextResponse.json(
       { success: true, orderId: order.orderCode }, // 👈 return short code
       { status: 201 }
     );
+
+    // 🔔 Fire-and-forget email sending
+    (async () => {
+      try {
+        // Admin notification
+        if (process.env.ADMIN_EMAIL) {
+          await sendMail({
+            to: process.env.ADMIN_EMAIL,
+            subject: "🛒 New order placed",
+            html: orderPlacedEmailAdmin({
+              orderCode: order.orderCode,
+              amount: order.amount,
+              discount: order.discount,
+              status: order.status,
+              createdAt: order.createdAt,
+              paymentMethod: order.paymentMethod,
+              customer: {
+                fullName: order.address!.fullName,
+                phone: order.address!.phone,
+                email: order.address!.email ?? "",
+                addressLine1: order.address!.addressLine1,
+                addressLine2: order.address!.addressLine2 ?? "",
+                city: order.address!.city,
+                state: order.address!.state,
+                pincode: order.address!.pincode,
+              },
+              items: order.items.map((item) => ({
+                name: item.name,
+                size: item.size,
+                price: item.price,
+                quantity: item.quantity,
+                coverThumbnail: item.coverThumbnail ?? "",
+              })),
+            }),
+          });
+        }
+
+        // Customer notification
+        if (order.address?.email) {
+          await sendMail({
+            to: order.address.email,
+            subject: "✅ Your order has been placed",
+            html: orderPlacedEmailCustomer({
+              orderCode: order.orderCode,
+              amount: order.amount,
+              discount: order.discount,
+              status: order.status,
+              createdAt: order.createdAt,
+              paymentMethod: order.paymentMethod,
+              customer: {
+                fullName: order.address.fullName,
+                phone: order.address.phone,
+                email: order.address.email,
+                addressLine1: order.address.addressLine1,
+                addressLine2: order.address.addressLine2 ?? "",
+                city: order.address.city,
+                state: order.address.state,
+                pincode: order.address.pincode,
+              },
+              items: order.items.map((item) => ({
+                name: item.name,
+                size: item.size,
+                price: item.price,
+                quantity: item.quantity,
+                coverThumbnail: item.coverThumbnail ?? "",
+              })),
+            }),
+          });
+        }
+      } catch (error) {
+        console.error("ORDER_EMAIL_FAILED:", error);
+      }
+    })();
+
+    return response;
   } catch (error) {
     console.error("ORDER_CREATE_ERROR:", error);
     return NextResponse.json(
