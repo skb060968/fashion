@@ -52,7 +52,7 @@ async function processDir(inputDir, relativePath = "") {
       // Full-size items (1200x1600)
       promises.push(
         sharp(fullInputPath)
-          .resize(1200, 1600, { fit: "cover" })
+          .resize(900, 1200, { fit: "cover" })
           .toFormat("webp")
           .toFile(path.join(outputItemsDir, `${baseName}.webp`))
       );
