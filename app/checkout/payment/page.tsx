@@ -80,13 +80,16 @@ export default function PaymentPage() {
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 bg-white rounded-xl shadow-sm p-4 border-b last:border-none"
             >
               <div className="flex items-start gap-4">
-                <Image
-                  src={item.coverThumbnail}
-                  alt={item.name}
-                  width={100}
-                  height={140}
-                  className="rounded-md object-cover sm:w-[150px] sm:h-[200px]"
-                />
+              <Image
+  src={item.coverThumbnail}
+  alt={item.name}
+  width={100}
+  height={140}
+  className="rounded-md object-cover sm:w-[150px] sm:h-[200px]"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 150px, 
+         100px"
+/>
                 <div>
                   <p className="font-serif text-lg font-semibold text-fashion-black">
                     {item.name}
@@ -148,13 +151,16 @@ export default function PaymentPage() {
         {/* UPI */}
         <div className="bg-white rounded-xl shadow p-6 text-center space-y-4">
           <h2 className="font-semibold text-lg">Pay via UPI</h2>
-          <Image
-            src="/payments/upi.jpg"
-            alt="UPI QR Code"
-            width={220}
-            height={220}
-            className="mx-auto"
-          />
+        <Image
+  src="/payments/upi.jpg"
+  alt="UPI QR Code"
+  width={220}
+  height={220}
+  className="mx-auto object-contain"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 50vw, 
+         220px"
+/>
           <label className="flex items-center justify-center gap-2 text-sm">
             <input
               type="checkbox"

@@ -13,14 +13,17 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 group mb-4">
-              <Image
-                src="/payments/logo.png"
-                alt="GP Fashion logo"
-                width={40}
-                height={40}
-                className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-                priority
-              />
+             <Image
+  src="/payments/logo.png"
+  alt="GP Fashion logo"
+  width={40}
+  height={40}
+  className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+  priority
+  sizes="(max-width: 640px) 20vw, 
+         (max-width: 1024px) 10vw, 
+         40px"
+/>
               <span className="font-serif text-2xl font-bold tracking-tight text-fashion-black">
                 {siteInfo.siteName}
               </span>

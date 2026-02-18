@@ -95,13 +95,18 @@ export default async function CollectionDetailPage({
                     {/* Inner frame with image */}
                     <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg ring-1 ring-stone-200">
                       <Image
-                        src={dress.coverImage}
-                        alt={dress.name}
-                        width={1200}
-                        height={1600}
-                        className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
+    src={dress.coverImage}
+    alt={dress.name}
+    width={1200}
+    height={1600}
+    className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+    // 👇 Responsive sizes for different breakpoints
+    sizes="(max-width: 640px) 100vw, 
+           (max-width: 1024px) 50vw, 
+           33vw"
+    priority={false}
+  />
+
 
                       {/* Dress name overlay */}
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">

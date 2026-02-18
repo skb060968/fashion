@@ -61,12 +61,15 @@ export default function CartPage() {
             >
               <div className="flex items-center gap-5">
                 <Image
-                  src={item.coverThumbnail}
-                  alt={item.name}
-                  width={150}
-                  height={200}
-                  className="rounded-xl object-cover"
-                />
+  src={item.coverThumbnail}
+  alt={item.name}
+  width={150}
+  height={200}
+  className="rounded-xl object-cover"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 50vw, 
+         150px"
+/>
 
                 <div>
                   <h2 className="font-serif text-xl font-semibold text-fashion-black">

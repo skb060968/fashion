@@ -62,13 +62,16 @@ export default function InvoicePage() {
         {/* HEADER BAR */}
         <div className="flex justify-between items-center border-b pb-4 mb-8">
           <div className="flex items-center gap-4">
-            <Image
-              src="/payments/logo.png"
-              alt="Company Logo"
-              width={80}
-              height={80}
-              className="object-contain"
-            />
+        <Image
+  src="/payments/logo.png"
+  alt="Company Logo"
+  width={80}
+  height={80}
+  className="object-contain"
+  sizes="(max-width: 640px) 50vw, 
+         (max-width: 1024px) 25vw, 
+         80px"
+/>
             <div>
               <h1 className="text-2xl font-bold text-fashion-black">GP Fashion</h1>
               <p className="text-sm text-gray-600">New Delhi, India</p>

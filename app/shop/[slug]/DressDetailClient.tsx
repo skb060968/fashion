@@ -41,14 +41,16 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
 
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg ring-1 ring-stone-200">
                   <div className="w-full aspect-[3/4] bg-stone-100 relative">
-                    <Image
-                      src={activeImage}
-                      alt={dress.name}
-                      fill
-                      className="object-cover"
-                      priority
-                      sizes="(max-width: 768px) 90vw, 500px"
-                    />
+                 <Image
+  src={activeImage}
+  alt={dress.name}
+  fill
+  className="object-cover"
+  priority
+  sizes="(max-width: 640px) 90vw, 
+         (max-width: 1024px) 500px, 
+         (min-width: 1025px) 600px"
+/>
                   </div>
                 </div>
               </div>
@@ -92,13 +94,16 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                             </svg>
                           </div>
                         )}
-                        <Image
-                          src={thumb}
-                          alt={`${dress.name} view ${index + 1}`}
-                          width={150}
-                          height={200}
-                          className="object-cover w-full h-full"
-                        />
+                      <Image
+  src={thumb}
+  alt={`${dress.name} view ${index + 1}`}
+  width={150}
+  height={200}
+  className="object-cover w-full h-full rounded-md"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 150px, 
+         150px"
+/>
                       </button>
                     )
                   })}

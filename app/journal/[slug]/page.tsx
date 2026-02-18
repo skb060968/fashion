@@ -22,14 +22,17 @@ export default function JournalDetailPage() {
       {/* Hero with contained width */}
       <section className="container-max pt-32 pb-12">
         <div className="rounded-xl overflow-hidden shadow bg-stone-100">
-          <Image
-            src={post.coverImage}
-            alt={post.title}
-            width={1200}
-            height={600}
-            className="w-full h-auto object-cover"
-            priority
-          />
+       <Image
+  src={post.coverImage}
+  alt={post.title}
+  width={1200}
+  height={600}
+  className="w-full h-auto object-cover"
+  priority
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 100vw, 
+         1200px"
+/>
         </div>
         <h1 className="font-serif text-3xl md:text-4xl font-bold text-fashion-black mt-8">
           {post.title}

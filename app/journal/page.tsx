@@ -33,12 +33,15 @@ export default function JournalPage() {
                 <article className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                   <Link href={`/journal/${post.slug}`}>
                     <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
-                      <Image
-                        src={post.coverImage}
-                        alt={post.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                     <Image
+  src={post.coverImage}
+  alt={post.title}
+  fill
+  className="object-cover transition-transform duration-700 group-hover:scale-105"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 50vw, 
+         (min-width: 1025px) 33vw"
+/>
                     </div>
 
                     <div className="p-6">

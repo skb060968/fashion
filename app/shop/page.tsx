@@ -40,13 +40,15 @@ export default function ShopPage() {
                   {/* Inner frame with image */}
                   <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg ring-1 ring-stone-200">
                     <div className="w-full aspect-[3/4] bg-stone-100 relative">
-                      <Image
-                        src={dress.coverImage}
-                        alt={dress.name}
-                        fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
+                   <Image
+  src={dress.coverImage}
+  alt={dress.name}
+  fill
+  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 50vw, 
+         (min-width: 1025px) 33vw"
+/>
                     </div>
 
                     {/* Dress name overlay - appears on hover */}

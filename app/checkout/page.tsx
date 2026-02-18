@@ -81,13 +81,16 @@ export default function PaymentPage() {
 
           {method === "upi" && (
             <div className="mt-6 rounded-xl border border-gray-200 bg-stone-50 p-6 text-center space-y-4">
-              <Image
-                src="/payments/upi-qr.jpg"
-                alt="UPI QR"
-                width={176}   // matches w-44 (44 * 4 = 176px)
-                height={176}  // matches h-44
-                className="mx-auto object-contain"
-              />
+            <Image
+  src="/payments/upi-qr.jpg"
+  alt="UPI QR"
+  width={176}   // matches w-44 (44 * 4 = 176px)
+  height={176}  // matches h-44
+  className="mx-auto object-contain"
+  sizes="(max-width: 640px) 100vw, 
+         (max-width: 1024px) 50vw, 
+         176px"
+/>
 
               <p className="text-sm text-gray-600">
                 Pay ₹{subtotal} using any UPI app
