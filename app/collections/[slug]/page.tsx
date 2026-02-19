@@ -97,14 +97,10 @@ export default async function CollectionDetailPage({
                       <Image
     src={dress.coverImage}
     alt={dress.name}
-    width={1200}
-    height={1600}
+    width={750}
+    height={1000}
     className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-    // 👇 Responsive sizes for different breakpoints
-    sizes="(max-width: 640px) 100vw, 
-           (max-width: 1024px) 50vw, 
-           33vw"
-    priority={false}
+    
   />
 
 

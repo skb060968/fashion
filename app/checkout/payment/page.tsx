@@ -83,12 +83,10 @@ export default function PaymentPage() {
               <Image
   src={item.coverThumbnail}
   alt={item.name}
-  width={100}
-  height={140}
+  width={75}
+  height={100}
   className="rounded-md object-cover sm:w-[150px] sm:h-[200px]"
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 150px, 
-         100px"
+  
 />
                 <div>
                   <p className="font-serif text-lg font-semibold text-fashion-black">
@@ -157,9 +155,7 @@ export default function PaymentPage() {
   width={220}
   height={220}
   className="mx-auto object-contain"
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 50vw, 
-         220px"
+  
 />
           <label className="flex items-center justify-center gap-2 text-sm">
             <input

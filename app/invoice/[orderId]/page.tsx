@@ -68,9 +68,7 @@ export default function InvoicePage() {
   width={80}
   height={80}
   className="object-contain"
-  sizes="(max-width: 640px) 50vw, 
-         (max-width: 1024px) 25vw, 
-         80px"
+  
 />
             <div>
               <h1 className="text-2xl font-bold text-fashion-black">GP Fashion</h1>

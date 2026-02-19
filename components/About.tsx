@@ -18,12 +18,9 @@ export default function AboutSection() {
   src="/images/about/piyush2.jpg"
   alt="Piyush Bholla"
   width={600}
-  height={700}
+  height={800}
   className="w-full h-96 lg:h-[480px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-  priority
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 100vw, 
-         600px"
+  
 />
 
               <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-fashion-gold rounded-full flex items-center justify-center shadow-md">

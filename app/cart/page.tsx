@@ -63,12 +63,10 @@ export default function CartPage() {
                 <Image
   src={item.coverThumbnail}
   alt={item.name}
-  width={150}
-  height={200}
+  width={75}
+  height={100}
   className="rounded-xl object-cover"
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 50vw, 
-         150px"
+  
 />
 
                 <div>

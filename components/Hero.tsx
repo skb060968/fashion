@@ -10,19 +10,20 @@ export default function Hero() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         <video
-          autoPlay
-          muted
-          loop
-          playsInline
-		  preload="auto"
-          className="w-full h-full object-cover"
-		  aria-hidden="true"
-          role="presentation"
-          poster="/images/hero/poster.jpg"  // <-- Poster image here
-		  
-        > <source src="/videos/hero.mp4" type="video/mp4" />
-          <source src="/videos/hero.webm" type="video/webm" />
-        </video>
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="w-full h-full object-cover"
+  aria-hidden="true"
+  role="presentation"
+  poster="/images/hero/poster.jpg"
+>
+  {/* Add these only when video files are available */}
+  {/* <source src="/videos/hero.mp4" type="video/mp4" /> */}
+  {/* <source src="/videos/hero.webm" type="video/webm" /> */}
+</video>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
       </div>
 

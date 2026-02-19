@@ -84,12 +84,10 @@ export default function PaymentPage() {
             <Image
   src="/payments/upi-qr.jpg"
   alt="UPI QR"
-  width={176}   // matches w-44 (44 * 4 = 176px)
-  height={176}  // matches h-44
+  width={200}   
+  height={200}  
   className="mx-auto object-contain"
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 50vw, 
-         176px"
+  
 />
 
               <p className="text-sm text-gray-600">

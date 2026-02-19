@@ -28,10 +28,7 @@ export default function JournalDetailPage() {
   width={1200}
   height={600}
   className="w-full h-auto object-cover"
-  priority
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 100vw, 
-         1200px"
+  
 />
         </div>
         <h1 className="font-serif text-3xl md:text-4xl font-bold text-fashion-black mt-8">

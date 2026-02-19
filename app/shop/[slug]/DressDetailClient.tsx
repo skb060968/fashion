@@ -44,12 +44,10 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                  <Image
   src={activeImage}
   alt={dress.name}
-  fill
+  width={750}
+  height={1000}
   className="object-cover"
-  priority
-  sizes="(max-width: 640px) 90vw, 
-         (max-width: 1024px) 500px, 
-         (min-width: 1025px) 600px"
+  
 />
                   </div>
                 </div>
@@ -97,19 +95,20 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                       <Image
   src={thumb}
   alt={`${dress.name} view ${index + 1}`}
-  width={150}
-  height={200}
+  width={75}
+  height={100}
   className="object-cover w-full h-full rounded-md"
-  sizes="(max-width: 640px) 100vw, 
-         (max-width: 1024px) 150px, 
-         150px"
+  
+  
 />
+
                       </button>
                     )
                   })}
                 </div>
               </div>
             )}
+
           </div>
 
           {/* CONTENT COLUMN */}
