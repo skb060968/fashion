@@ -63,8 +63,8 @@ export default function CartPage() {
                 <Image
   src={item.coverThumbnail}
   alt={item.name}
-  width={60}
-  height={80}
+  width={75}
+  height={100}
   className="rounded-xl object-cover"
   
 />
