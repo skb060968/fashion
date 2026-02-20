@@ -97,10 +97,10 @@ export default async function CollectionDetailPage({
                       <Image
     src={dress.coverImage}
     alt={dress.name}
-    width={750}
-    height={1000}
+    width={600}
+    height={800}
     className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-    
+    priority
   />
 
 

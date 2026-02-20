@@ -68,7 +68,7 @@ export default function InvoicePage() {
   width={80}
   height={80}
   className="object-contain"
-  
+  priority
 />
             <div>
               <h1 className="text-2xl font-bold text-fashion-black">GP Fashion</h1>

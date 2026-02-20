@@ -20,7 +20,7 @@ export default function AboutSection() {
   width={600}
   height={800}
   className="w-full h-96 lg:h-[480px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-  
+  priority
 />
 
               <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-fashion-gold rounded-full flex items-center justify-center shadow-md">

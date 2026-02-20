@@ -38,7 +38,7 @@ export default function JournalPage() {
   alt={post.title}
   fill
   className="object-cover transition-transform duration-700 group-hover:scale-105"
-  
+  priority
 />
                     </div>
 

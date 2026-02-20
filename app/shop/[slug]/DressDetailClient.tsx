@@ -44,8 +44,8 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                  <Image
   src={activeImage}
   alt={dress.name}
-  width={750}
-  height={1000}
+  width={600}
+  height={800}
   className="object-cover"
   
 />
@@ -95,8 +95,8 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                       <Image
   src={thumb}
   alt={`${dress.name} view ${index + 1}`}
-  width={75}
-  height={100}
+  width={60}
+  height={80}
   className="object-cover w-full h-full rounded-md"
   
   

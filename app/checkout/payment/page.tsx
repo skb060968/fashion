@@ -83,8 +83,8 @@ export default function PaymentPage() {
               <Image
   src={item.coverThumbnail}
   alt={item.name}
-  width={75}
-  height={100}
+  width={60}
+  height={80}
   className="rounded-md object-cover sm:w-[150px] sm:h-[200px]"
   
 />
@@ -152,8 +152,8 @@ export default function PaymentPage() {
         <Image
   src="/payments/upi.jpg"
   alt="UPI QR Code"
-  width={220}
-  height={220}
+  width={600}
+  height={600}
   className="mx-auto object-contain"
   
 />

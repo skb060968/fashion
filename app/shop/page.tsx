@@ -45,7 +45,7 @@ export default function ShopPage() {
   alt={dress.name}
   fill
   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-  
+  priority
 />
                     </div>
 

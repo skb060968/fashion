@@ -41,7 +41,7 @@ export default function CollectionCard({
   alt={name}
   fill
   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-  
+  priority
 />
               
               {/* Gradient overlay */}

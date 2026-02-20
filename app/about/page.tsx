@@ -35,8 +35,8 @@ export default function AboutPage() {
                 <Image
   src="/images/about/piyush1.jpg"
   alt="Piyush Bholla"
-  width={750}
-  height={1000}
+  width={600}
+  height={800}
   className="w-full h-96 lg:h-[500px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
   
 />

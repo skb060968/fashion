@@ -31,8 +31,8 @@ export default function Navbar() {
        <Image
   src="/payments/logo.png"
   alt="GP Fashion logo"
-  width={40}
-  height={40}
+  width={80}
+  height={80}
   className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
   
 />

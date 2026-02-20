@@ -52,7 +52,7 @@ async function processDir(inputDir, relativePath = "") {
       // Full-size items (1200x1600)
       promises.push(
         sharp(fullInputPath)
-          .resize(750, 1000, { fit: "cover" })
+          .resize(600, 800, { fit: "cover" })
           .toFormat("webp")
           .toFile(path.join(outputItemsDir, `${baseName}.webp`))
       );
@@ -60,7 +60,7 @@ async function processDir(inputDir, relativePath = "") {
       // Thumbnails (150x200)
       promises.push(
         sharp(fullInputPath)
-          .resize(75, 100, { fit: "cover" })
+          .resize(60, 80, { fit: "cover" })
           .toFormat("webp")
           .toFile(path.join(outputThumbsDir, `${baseName}.webp`))
       );

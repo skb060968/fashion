@@ -25,7 +25,7 @@ export default function JournalDetailPage() {
        <Image
   src={post.coverImage}
   alt={post.title}
-  width={1200}
+  width={800}
   height={600}
   className="w-full h-auto object-cover"
   
