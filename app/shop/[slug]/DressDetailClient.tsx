@@ -44,8 +44,8 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                  <Image
   src={activeImage}
   alt={dress.name}
-  width={600}
-  height={800}
+  width={750}
+  height={1000}
   className="object-cover"
   
 />
@@ -60,7 +60,7 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3 text-center">
                   View Gallery
                 </p>
-                <div className="flex gap-1.5 sm:gap-2 justify-center overflow-x-auto pb-2">
+                <div className="flex gap-1.5 sm:gap-2 justify-center overflow-x-auto pt-2 pb-2">
                   {[...dress.thumbnails].reverse().map((thumb, index) => {
                     const filename = thumb.split("/").pop()
                     const correspondingItem = dress.images.find(img =>
@@ -75,11 +75,11 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                           setActiveImage(correspondingItem || dress.coverImage)
                         }
                         aria-pressed={isActive}
-                        className={`relative flex-shrink-0 w-12 sm:w-14 md:w-16 aspect-[3/4] rounded-md overflow-hidden transition-all duration-300 ease-out
+                        className={`relative flex-shrink-0 w-12 sm:w-14 md:w-16 aspect-[3/4] rounded-md transition-all duration-300 ease-out
                           ${
                             isActive
-                              ? "ring-2 ring-fashion-gold shadow-md scale-105 -translate-y-0.5"
-                              : "ring-1 ring-stone-200 hover:ring-stone-300 hover:shadow-md hover:scale-105"
+                              ? "ring-2 ring-fashion-gold shadow-md scale-105"
+                              : "ring-1 ring-stone-300 hover:ring-stone-500 hover:shadow-md hover:scale-105"
                           }`}
                       >
                         {isActive && (
@@ -95,8 +95,8 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                       <Image
   src={thumb}
   alt={`${dress.name} view ${index + 1}`}
-  width={60}
-  height={80}
+  width={75}
+  height={100}
   className="object-cover w-full h-full rounded-md"
   
   

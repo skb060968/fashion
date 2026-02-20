@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, ReactNode, useState } from "react"
+import { useEffect, useRef, ReactNode } from "react"
 
 interface RevealWrapperProps {
   children: ReactNode
@@ -14,25 +14,34 @@ export default function RevealWrapper({
   index = 0,
 }: RevealWrapperProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting)
+        if (entry.isIntersecting) {
+          el.classList.add("scroll-elevated")
+        } else {
+          el.classList.remove("scroll-elevated")
+        }
       },
-      { threshold: 0.3 } // adjust sensitivity
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -10% 0px",
+      }
     )
 
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+    observer.observe(el)
+    return () => observer.unobserve(el)
   }, [])
 
   return (
     <div
       ref={ref}
-      className={`${isVisible ? "elevated" : ""} ${className}`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      className={`scroll-wrapper ${className}`}
+      style={{ transitionDelay: `${index * 80}ms` }}
     >
       {children}
     </div>

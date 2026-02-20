@@ -144,17 +144,19 @@ video {
   background-size: 1000px 100%;
 }
 
-/* -----------------------------
-   Scroll Card Elevation
------------------------------ */
-.card {
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
+/* ----------------------------------
+   Scroll Elevation (Wrapper Based)
+---------------------------------- */
+
+.scroll-wrapper {
+  transition: transform 0.7s ease, filter 0.7s ease;
+  will-change: transform;
 }
 
-.card.elevated {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+.scroll-wrapper.scroll-elevated {
+  transform: translateY(-12px);
 }
+
 
 /* -----------------------------
    Premium Hover Effects
@@ -228,4 +230,20 @@ video {
 ----------------------------- */
 *:focus-visible {
   @apply outline-none ring-2 ring-fashion-gold ring-offset-2;
+}
+
+/* Remove tap highlight flash */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent image dragging */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Optional: prevent text selection on cards */
+.no-select {
+  user-select: none;
 }
