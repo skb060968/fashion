@@ -74,13 +74,19 @@ export default function Navbar() {
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu with animation */}
+      {/* Backdrop overlay */}
+      {isOpen && (
         <div
-          className={`lg:hidden transform transition-transform duration-300 ease-in-out ${
-            isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-          } border-t border-gray-100 bg-gradient-to-b from-amber-50 to-amber-100`}
-        >
+          className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="lg:hidden absolute top-16 left-0 w-full z-50 border-t border-gray-100 bg-gradient-to-b from-amber-50 to-amber-100 animate-slideDown">
           <div className="py-4 space-y-2">
             {navItems.map(item => (
               <Link
@@ -111,7 +117,7 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   )
 }
