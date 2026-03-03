@@ -153,8 +153,8 @@ export default function DressDetailClient({ dress }: { dress: Dress }) {
                 onClick={() => setShowModal(true)}
                 className="w-full px-10 py-4 rounded-full text-sm font-semibold border-2 border-fashion-gold bg-fashion-gold text-white hover:bg-transparent hover:text-fashion-gold transition-all duration-300 shadow-md hover:shadow-xl"
               >
-                Get This Dress
-              </button>
+                Shop the Look
+                </button>
 
               <button
                 onClick={handleBackToPortfolio}
