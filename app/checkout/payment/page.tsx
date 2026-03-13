@@ -40,6 +40,11 @@ export default function PaymentPage() {
     if (!address || cart.length === 0 || !confirmChecked) return
     try {
       setIsPlacingOrder(true)
+      // 🔥 Step 1: Warm-up query (wake Neon branch)
+      await fetch("/api/warmup", { method: "POST" })
+
+      // 🔥 Step 2: Place actual order
+
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -152,8 +157,8 @@ export default function PaymentPage() {
         <Image
   src="/payments/upi.jpg"
   alt="UPI QR Code"
-  width={600}
-  height={600}
+  width={300}
+  height={300}
   className="mx-auto object-contain"
   
 />
